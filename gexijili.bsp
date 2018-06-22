@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<BSSignalRegistry xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>gexijili</Name>
+  <Latency>0</Latency>
+  <Signals />
+</BSSignalRegistry>

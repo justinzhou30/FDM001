@@ -1,0 +1,6 @@
+/lst
+/output/*
+!/output/FDM001.hex
+!/output/FDM001.bin
+!/output/hex2bin.exe
+
