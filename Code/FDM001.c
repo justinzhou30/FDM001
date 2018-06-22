@@ -23,6 +23,7 @@ void main (void)
 		if(!--test_temp)
 		{
 			Send_Data_To_UART0(0xaa);
+			Send_Data_To_UART1(0x55);
 			test_temp = 100;
 		}
 		while(!flag_10ms);

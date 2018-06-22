@@ -8,6 +8,8 @@ void sys_init(void)
 	
 	Uart0_init();
 	
+	Uart1_init();
+	
 	set_EA;
 }
 

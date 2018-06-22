@@ -396,6 +396,11 @@
               <FileType>1</FileType>
               <FilePath>.\Code\UART0.c</FilePath>
             </File>
+            <File>
+              <FileName>UART1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Code\UART1.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
