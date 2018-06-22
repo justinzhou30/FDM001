@@ -2,5 +2,13 @@
 <BSSignalRegistry xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>gexijili</Name>
   <Latency>0</Latency>
-  <Signals />
+  <Signals>
+    <BSSignal>
+      <Name>test</Name>
+      <DataFormat>Hex</DataFormat>
+      <Data>cd</Data>
+      <Latency>0</Latency>
+      <Active>false</Active>
+    </BSSignal>
+  </Signals>
 </BSSignalRegistry>

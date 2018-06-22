@@ -11,9 +11,11 @@
 #define UART0_ISR	4
 #define TIMER0_ISR	1
 #define UART1_ISR	15
+#define PWM_ISR		13
 
 void Uart0_init(void);
 void Uart1_init(void);
 void sys_init(void);
+void pwm_init(void);
 
 #endif

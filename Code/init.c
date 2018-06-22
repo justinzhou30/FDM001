@@ -10,6 +10,8 @@ void sys_init(void)
 	
 	Uart1_init();
 	
+	pwm_init();
+	
 	set_EA;
 }
 
