@@ -1,5 +1,7 @@
 #include "All_Function.h"
 
+#define SS_PIN          P15
+
 #define FLASH_CMD_READ		03
 #define FLASH_CMD_WRITE
 
@@ -25,7 +27,7 @@ UINT8 spi_status;
 void Spi_init(void)
 {		
 	set_DISMODF;															// SS General purpose I/O ( No Mode Fault ) 
-	set_SSOE;
+	clr_SSOE;
  
 	clr_LSBFE;																// MSB first         
 
@@ -34,7 +36,7 @@ void Spi_init(void)
 	
 	set_MSTR;																	// SPI in Master mode 
 	 
-	SPICLK_DIV2;															// Select SPI clock
+	SPICLK_DIV8;															// Select SPI clock
 	set_ESPI;																	// Enable SPI interrupt
 	clr_SPIEN;																// Enable SPI function
 }
@@ -94,7 +96,8 @@ void Spi_ISR(void) interrupt SPI_ISR                  // Vecotr @  0x4B
 					*(Paddr + count_flash_bak - 1) = spi_ReadByte();
 				
 					if(count_flash_bak == count_flash)
-					{						
+					{	
+						SS_PIN = 1;
 						clr_SPIEN;
 						spi_status = SPI_DEFAULT;
 					}
@@ -131,6 +134,7 @@ void spi_Read(UINT32 addr_flash , UINT8 count , UINT8 *Paddr_mcu)
 	
 	Paddr = Paddr_mcu;
 	
+	SS_PIN = 0;
 	set_SPIEN;
 	
 	spi_status = SPI_WRITE_ADDRH;
@@ -152,6 +156,7 @@ void spi_Write(UINT32 addr_flash , UINT8 count , UINT8 *Paddr_mcu)
 	
 	Paddr = Paddr_mcu;
 	
+	SS_PIN = 0;
 	set_SPIEN;
 	
 //	spi_WriteByte();
