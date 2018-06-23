@@ -12,6 +12,8 @@ void sys_init(void)
 	
 	pwm_init();
 	
+	Spi_init();
+	
 	set_EA;
 }
 

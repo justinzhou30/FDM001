@@ -20,20 +20,20 @@ void pwm_init(void)
 
 void Pwm_ISR (void) interrupt PWM_ISR
 {
-	static UINT16 temp;
+//	static UINT16 temp;
   clr_PWMF;               // clear PWM interrupt flag
 
-	if(++PWM3L == 0xe7)
-	{
-		PWM3L = 1;
-		if(++PWM3H == 4)
-			PWM3H = 0;
+//	if(++PWM3L == 0xe7)
+//	{
+//		PWM3L = 1;
+//		if(++PWM3H == 4)
+//			PWM3H = 0;
 
-	}
-	set_LOAD;
-	if(++temp == 16000)
-	{
-		Send_Data_To_UART0(0x34);
-		temp = 0;
-	}
+//	}
+//	set_LOAD;
+//	if(++temp == 16000)
+//	{
+//		Send_Data_To_UART0(0x34);
+//		temp = 0;
+//	}
 }

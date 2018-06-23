@@ -12,10 +12,13 @@
 #define TIMER0_ISR	1
 #define UART1_ISR	15
 #define PWM_ISR		13
+#define SPI_ISR		9
 
 void Uart0_init(void);
 void Uart1_init(void);
 void sys_init(void);
 void pwm_init(void);
+void Spi_init(void);
+void spi_Read(UINT32 addr_flash , UINT8 count , UINT8 *Paddr_mcu);
 
 #endif

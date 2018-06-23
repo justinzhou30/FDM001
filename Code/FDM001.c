@@ -13,10 +13,13 @@ UINT8 flag_10ms;
 void main (void)
 {
   UINT8 test_temp;
+	UINT8 spi_rec_data[16];
+	
 	test_temp = 100;
 	sys_init();
 
-
+	spi_Read(0x00002345 , 16 , spi_rec_data);
+	
 	while(1)
 	{
 //		P12 = ~P12;
