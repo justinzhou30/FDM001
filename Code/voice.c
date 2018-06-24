@@ -10,7 +10,7 @@ UINT32 voiceDataIndex;			//flash里面取的当前声音数据指针
 
 //UINT8 voiceBuffer0[32];
 
-#define VOICE_BUFFER_INDEX_MAX		24
+#define VOICE_BUFFER_INDEX_MAX		16
 
 UINT8 voiceBufferItem;			//指示用的是哪一个Buffer 0和1
 
@@ -60,7 +60,7 @@ void getVoiceNextData(void)
 	
 	if(q_get_dataSize() == 0)
 	{
-		stop_pwm();
+//		stop_pwm();
 		return;
 	}
 	

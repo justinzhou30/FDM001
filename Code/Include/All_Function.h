@@ -24,6 +24,7 @@ void Spi_init(void);
 void spi_Read(UINT32 addr_flash , UINT8 count , UINT8 *Paddr_mcu);
 void spi_ReadInQ(UINT32 addr_flash , UINT8 count);
 UINT8 get_spiReadState(void);
+void spi_server(void);
 
 void q_init(void);
 void q_push(UINT8 qData);
@@ -33,6 +34,7 @@ UINT8 q_get_dataSize(void);
 void set_pwmDuty(UINT8 *pBuffer);
 void start_pwm(void);
 void stop_pwm(void);
+void pwm_server(void);
 
 void getVoiceNextData(void);
 void play_voice(UINT8 index);

@@ -1,11 +1,13 @@
 #include "All_Function.h"
 
+UINT8 pwm_intFlag;
+
 void pwm_init(void)
 {
 	PWM3_P04_OUTPUT_ENABLE;
 	PWM_CLOCK_FSYS;
 	PWM_INT_PWM3;
-	PWM_PERIOD_END_INT;
+	PWM_RISING_INT;
 //	PWM_CLOCK_DIV_2;
 	PWMPH = 16000000/16000/256;
 	PWMPL = (16000000/16000)%256;
@@ -36,12 +38,14 @@ void Pwm_ISR (void) interrupt PWM_ISR
 //		Send_Data_To_UART0(0x34);
 //		temp = 0;
 //	}
-	getVoiceNextData();
+	P12 = ~P12;
+	pwm_intFlag = 0xff;
+//	getVoiceNextData();
 }
 
 void start_pwm(void)
 {
-	printf("\nPWM_start");
+//	printf("\nPWM_start");
 	set_EPWM;
 	set_LOAD;
 	set_PWMRUN;
@@ -52,7 +56,7 @@ void stop_pwm(void)
 	clr_EPWM;
 	clr_PWMRUN;
 	clr_PWMF;
-	printf("\nPWM_STOP");
+//	printf("\nPWM_STOP");
 }
 
 void set_pwmDuty(UINT8 *pBuffer)
@@ -60,16 +64,19 @@ void set_pwmDuty(UINT8 *pBuffer)
 	UINT16 temp;
 	
 	temp = 0;
-	temp |= *pBuffer;
-	temp <<= 8;
 	temp |= *(pBuffer+1);
+	temp <<= 8;
+	temp |= *pBuffer;
 	
 	temp >>= 6;						//???????
 	if(temp > 1000)
-		temp = 1000;
+		temp = 999;
 	
 	if(temp == 0)
 		temp = 1;
+
+	PWMPH = 16000000/16000/256;
+	PWMPL = (16000000/16000)%256;
 	
 	PWM3L = (UINT8)temp;
 	PWM3H = (UINT8)(temp>>8);
@@ -77,3 +84,11 @@ void set_pwmDuty(UINT8 *pBuffer)
 	set_LOAD;
 }
 
+void pwm_server(void)
+{
+	if(pwm_intFlag)
+	{
+		pwm_intFlag = 0;
+		getVoiceNextData();
+	}
+}

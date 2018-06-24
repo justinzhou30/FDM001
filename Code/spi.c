@@ -31,6 +31,9 @@ UINT8 spiReadState;
 #define SPI_DEFAULT				0xff
 UINT8 spi_status;
 
+
+UINT8 spi_intFlag;
+
 void Spi_init(void)
 {		
 	set_DISMODF;															// SS General purpose I/O ( No Mode Fault ) 
@@ -68,74 +71,76 @@ UINT8 spi_ReadByte(void)
 
 void Spi_ISR(void) interrupt SPI_ISR                  // Vecotr @  0x4B
 {
-	static UINT8 count_flash_bak;
+//	static UINT8 count_flash_bak;
 	
 	if(SPSR & 0x80)
   {
+		spi_intFlag = 0xff;
 		clr_SPIF;
 		
-		if(spiFlag & SPI_READ_FLAG)										//read
-		{
-			
-			switch(spi_status)
-			{
-				case SPI_WRITE_ADDRH:
-					
-					spi_WriteByte(addr_flashH[2]);
-					spi_status = SPI_WRITE_ADDRM;
-				
-					break;
-				
-				case SPI_WRITE_ADDRM:
-					
-					spi_WriteByte(addr_flashH[1]);
-					spi_status = SPI_WRITE_ADDRL;
-					break;
-				
-				case SPI_WRITE_ADDRL:
-					spi_WriteByte(addr_flashH[0]);
-					spi_status = SPI_READ_DATA_PRE;
-					break;
-				
-				case SPI_READ_DATA_PRE:
-					spi_WriteByte(0);
-					count_flash_bak = 1;
-					spi_status = SPI_READ_DATA;
-				
-				
-					break;
-				
-				case SPI_READ_DATA:
-					if(spiFlag & SPI_READ_Q_FLAG)
-					{
-						q_push(spi_ReadByte());
-					}
-					else
-						*(Paddr + count_flash_bak - 1) = spi_ReadByte();
-				
-					if(count_flash_bak == count_flash)
-					{	
-						SS_PIN = 1;
-						clr_SPIEN;
-						spi_status = SPI_DEFAULT;
-						spiReadState = SPI_READSTATE_FINISH;
-					}
-					else
-					{							
-						spi_WriteByte(0);
-						++count_flash_bak;
-					}
-					break;
-				
-				default:
-					break;
-				
-			}
-		}
-		
-		if(spiFlag == SPI_WRITE_FLAG)										//write
-		{
-		}
+//		
+//		if(spiFlag & SPI_READ_FLAG)										//read
+//		{
+//			
+//			switch(spi_status)
+//			{
+//				case SPI_WRITE_ADDRH:
+//					
+//					spi_WriteByte(addr_flashH[2]);
+//					spi_status = SPI_WRITE_ADDRM;
+//				
+//					break;
+//				
+//				case SPI_WRITE_ADDRM:
+//					
+//					spi_WriteByte(addr_flashH[1]);
+//					spi_status = SPI_WRITE_ADDRL;
+//					break;
+//				
+//				case SPI_WRITE_ADDRL:
+//					spi_WriteByte(addr_flashH[0]);
+//					spi_status = SPI_READ_DATA_PRE;
+//					break;
+//				
+//				case SPI_READ_DATA_PRE:
+//					spi_WriteByte(0);
+//					count_flash_bak = 1;
+//					spi_status = SPI_READ_DATA;
+//				
+//				
+//					break;
+//				
+//				case SPI_READ_DATA:
+//					if(spiFlag & SPI_READ_Q_FLAG)
+//					{
+//						q_push(spi_ReadByte());
+//					}
+//					else
+//						*(Paddr + count_flash_bak - 1) = spi_ReadByte();
+//				
+//					if(count_flash_bak == count_flash)
+//					{	
+//						SS_PIN = 1;
+//						clr_SPIEN;
+//						spi_status = SPI_DEFAULT;
+//						spiReadState = SPI_READSTATE_FINISH;
+//					}
+//					else
+//					{							
+//						spi_WriteByte(0);
+//						++count_flash_bak;
+//					}
+//					break;
+//				
+//				default:
+//					break;
+//				
+//			}
+//		}
+//		
+//		if(spiFlag == SPI_WRITE_FLAG)										//write
+//		{
+//		}
 	}
 }
 
@@ -168,6 +173,10 @@ void spi_Read(UINT32 addr_flash , UINT8 count , UINT8 *Paddr_mcu)
 
 void spi_ReadInQ(UINT32 addr_flash , UINT8 count)
 {
+	if(spiReadState == SPI_READSTATE_BUSY)
+		return;
+	
+	spiReadState = SPI_READSTATE_BUSY;
 	SS_PIN = 1;
 	spiFlag |= SPI_READ_FLAG;
 	spiFlag |= SPI_READ_Q_FLAG;
@@ -209,5 +218,78 @@ void spi_Write(UINT32 addr_flash , UINT8 count , UINT8 *Paddr_mcu)
 
 UINT8 get_spiReadState(void)
 {
+	spi_server();
 	return spiReadState;
+}
+
+void spi_server(void)
+{
+	static UINT8 count_flash_bak;
+	
+	if(spi_intFlag == 0)
+		return;
+	
+	spi_intFlag = 0;
+	if(spiFlag & SPI_READ_FLAG)										//read
+	{
+		
+		switch(spi_status)
+		{
+			case SPI_WRITE_ADDRH:
+				
+				spi_WriteByte(addr_flashH[2]);
+				spi_status = SPI_WRITE_ADDRM;
+			
+				break;
+			
+			case SPI_WRITE_ADDRM:
+				
+				spi_WriteByte(addr_flashH[1]);
+				spi_status = SPI_WRITE_ADDRL;
+				break;
+			
+			case SPI_WRITE_ADDRL:
+				spi_WriteByte(addr_flashH[0]);
+				spi_status = SPI_READ_DATA_PRE;
+				break;
+			
+			case SPI_READ_DATA_PRE:
+				spi_WriteByte(0);
+				count_flash_bak = 1;
+				spi_status = SPI_READ_DATA;
+			
+			
+				break;
+			
+			case SPI_READ_DATA:
+				if(spiFlag & SPI_READ_Q_FLAG)
+				{
+					q_push(spi_ReadByte());
+				}
+				else
+					*(Paddr + count_flash_bak - 1) = spi_ReadByte();
+			
+				if(count_flash_bak == count_flash)
+				{	
+					SS_PIN = 1;
+					clr_SPIEN;
+					spi_status = SPI_DEFAULT;
+					spiReadState = SPI_READSTATE_FINISH;
+				}
+				else
+				{							
+					spi_WriteByte(0);
+					++count_flash_bak;
+				}
+				break;
+			
+			default:
+				break;
+			
+		}
+	}
+	
+	if(spiFlag == SPI_WRITE_FLAG)										//write
+	{
+	}
 }
