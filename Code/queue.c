@@ -18,11 +18,11 @@ void q_init(void)
 
 void q_push(UINT8 qData)
 {
-	clr_EA;
+//	clr_EA;
 	
 	if(((rear+1) & 0x3f) == front)
 	{
-		set_EA;
+//		set_EA;
 		return;
 	}
 	
@@ -30,7 +30,7 @@ void q_push(UINT8 qData)
 	
 	rear &= 0x3f;
 	
-	set_EA;
+//	set_EA;
 }
 
 UINT8 q_pop(UINT8 *qData)

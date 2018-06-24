@@ -73,8 +73,9 @@ void Spi_ISR(void) interrupt SPI_ISR                  // Vecotr @  0x4B
   {
 		clr_SPIF;
 		
-		if(spiFlag == SPI_READ_FLAG)										//read
+		if(spiFlag & SPI_READ_FLAG)										//read
 		{
+			
 			switch(spi_status)
 			{
 				case SPI_WRITE_ADDRH:
@@ -85,6 +86,7 @@ void Spi_ISR(void) interrupt SPI_ISR                  // Vecotr @  0x4B
 					break;
 				
 				case SPI_WRITE_ADDRM:
+					
 					spi_WriteByte(addr_flashH[1]);
 					spi_status = SPI_WRITE_ADDRL;
 					break;
@@ -98,11 +100,15 @@ void Spi_ISR(void) interrupt SPI_ISR                  // Vecotr @  0x4B
 					spi_WriteByte(0);
 					count_flash_bak = 1;
 					spi_status = SPI_READ_DATA;
+				
+				
 					break;
 				
 				case SPI_READ_DATA:
 					if(spiFlag & SPI_READ_Q_FLAG)
+					{
 						q_push(spi_ReadByte());
+					}
 					else
 						*(Paddr + count_flash_bak - 1) = spi_ReadByte();
 				
