@@ -9,6 +9,7 @@ void Uart1_init(void)
 
 void Uart1_ISR(void) interrupt UART1_ISR
 {
+	
 	if(TI_1)
 	{
 		TI_1 = 0;
@@ -18,4 +19,11 @@ void Uart1_ISR(void) interrupt UART1_ISR
 	{
 		RI_1 = 0;
 	}
+}
+
+char putchar (char c)  {
+    TI_1 = 0;
+    SBUF_1 = c;
+    while(TI_1==0);
+		return c;
 }

@@ -5,16 +5,23 @@
 #define FLASH_CMD_READ		03
 #define FLASH_CMD_WRITE
 
-#define SPI_READ_FLAG		1
-#define SPI_WRITE_FLAG	2
-
+#define SPI_READ_FLAG		2
+#define SPI_READ_Q_FLAG		1
+#define SPI_WRITE_FLAG		4
 UINT8 spiFlag;
+
 
 UINT8 addr_flashH[3];
 
 UINT8 count_flash;
 
 UINT8 *Paddr;
+
+
+#define SPI_READSTATE_FINISH	0
+#define SPI_READSTATE_BUSY		0xff
+UINT8 spiReadState;
+
 
 #define SPI_WRITE_ADDRH		1
 #define SPI_WRITE_ADDRM		2
@@ -36,9 +43,10 @@ void Spi_init(void)
 	
 	set_MSTR;																	// SPI in Master mode 
 	 
-	SPICLK_DIV8;															// Select SPI clock
+	SPICLK_DIV2;															// Select SPI clock
 	set_ESPI;																	// Enable SPI interrupt
 	clr_SPIEN;																// Enable SPI function
+	spiReadState = SPI_READSTATE_FINISH;
 }
 
 
@@ -93,13 +101,17 @@ void Spi_ISR(void) interrupt SPI_ISR                  // Vecotr @  0x4B
 					break;
 				
 				case SPI_READ_DATA:
-					*(Paddr + count_flash_bak - 1) = spi_ReadByte();
+					if(spiFlag & SPI_READ_Q_FLAG)
+						q_push(spi_ReadByte());
+					else
+						*(Paddr + count_flash_bak - 1) = spi_ReadByte();
 				
 					if(count_flash_bak == count_flash)
 					{	
 						SS_PIN = 1;
 						clr_SPIEN;
 						spi_status = SPI_DEFAULT;
+						spiReadState = SPI_READSTATE_FINISH;
 					}
 					else
 					{							
@@ -124,7 +136,10 @@ void Spi_ISR(void) interrupt SPI_ISR                  // Vecotr @  0x4B
 
 void spi_Read(UINT32 addr_flash , UINT8 count , UINT8 *Paddr_mcu)
 {
-	spiFlag = SPI_READ_FLAG;
+	spiFlag |= SPI_READ_FLAG;
+	spiFlag &= ~SPI_READ_Q_FLAG;
+	
+	spiReadState = SPI_READSTATE_BUSY;
 	
 	addr_flashH[2] = (UINT8)(addr_flash >> 16);
 	addr_flashH[1] = (UINT8)(addr_flash >> 8);
@@ -143,6 +158,27 @@ void spi_Read(UINT32 addr_flash , UINT8 count , UINT8 *Paddr_mcu)
 }
 
 
+void spi_ReadInQ(UINT32 addr_flash , UINT8 count)
+{
+	spiFlag |= SPI_READ_FLAG;
+	spiFlag |= SPI_READ_Q_FLAG;
+	
+	spiReadState = SPI_READSTATE_BUSY;
+	
+	addr_flashH[2] = (UINT8)(addr_flash >> 16);
+	addr_flashH[1] = (UINT8)(addr_flash >> 8);
+	addr_flashH[0] = (UINT8)(addr_flash);
+	
+	count_flash = count;
+	
+	SS_PIN = 0;
+	set_SPIEN;
+	
+	spi_status = SPI_WRITE_ADDRH;
+	
+	spi_WriteByte(FLASH_CMD_READ);
+}
+
 
 void spi_Write(UINT32 addr_flash , UINT8 count , UINT8 *Paddr_mcu)
 {
@@ -160,4 +196,9 @@ void spi_Write(UINT32 addr_flash , UINT8 count , UINT8 *Paddr_mcu)
 	set_SPIEN;
 	
 //	spi_WriteByte();
+}
+
+UINT8 get_spiReadState(void)
+{
+	return spiReadState;
 }

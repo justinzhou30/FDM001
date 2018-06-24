@@ -14,6 +14,8 @@ void sys_init(void)
 	
 	Spi_init();
 	
+	q_init();
+	
 	set_EA;
 }
 

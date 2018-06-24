@@ -7,6 +7,7 @@
 #include "Delay.h"
 #include "SFR_Macro.h"
 #include "Function_define.h"
+#include "stdio.h"
 
 #define UART0_ISR	4
 #define TIMER0_ISR	1
@@ -18,7 +19,15 @@ void Uart0_init(void);
 void Uart1_init(void);
 void sys_init(void);
 void pwm_init(void);
+
 void Spi_init(void);
 void spi_Read(UINT32 addr_flash , UINT8 count , UINT8 *Paddr_mcu);
+void spi_ReadInQ(UINT32 addr_flash , UINT8 count);
+UINT8 get_spiReadState(void);
+
+void q_init(void);
+void q_push(UINT8 qData);
+UINT8 q_pop(UINT8 *qData);
+UINT8 q_get_dataSize(void);
 
 #endif
