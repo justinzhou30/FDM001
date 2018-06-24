@@ -45,6 +45,7 @@ void Spi_init(void)
 	 
 	SPICLK_DIV2;															// Select SPI clock
 	set_ESPI;																	// Enable SPI interrupt
+	SS_PIN = 1;
 	clr_SPIEN;																// Enable SPI function
 	spiReadState = SPI_READSTATE_FINISH;
 }
@@ -142,6 +143,7 @@ void Spi_ISR(void) interrupt SPI_ISR                  // Vecotr @  0x4B
 
 void spi_Read(UINT32 addr_flash , UINT8 count , UINT8 *Paddr_mcu)
 {
+	SS_PIN = 1;
 	spiFlag |= SPI_READ_FLAG;
 	spiFlag &= ~SPI_READ_Q_FLAG;
 	
@@ -166,6 +168,7 @@ void spi_Read(UINT32 addr_flash , UINT8 count , UINT8 *Paddr_mcu)
 
 void spi_ReadInQ(UINT32 addr_flash , UINT8 count)
 {
+	SS_PIN = 1;
 	spiFlag |= SPI_READ_FLAG;
 	spiFlag |= SPI_READ_Q_FLAG;
 	

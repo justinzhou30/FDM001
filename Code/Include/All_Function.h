@@ -30,4 +30,10 @@ void q_push(UINT8 qData);
 UINT8 q_pop(UINT8 *qData);
 UINT8 q_get_dataSize(void);
 
+void set_pwmDuty(UINT8 *pBuffer);
+void start_pwm(void);
+void stop_pwm(void);
+
+void getVoiceNextData(void);
+void play_voice(UINT8 index);
 #endif

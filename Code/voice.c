@@ -58,11 +58,13 @@ void getVoiceNextData(void)
 {
 	UINT8 pwmDutyData[2];
 	
-	if(q_pop(&pwmDutyData[0]) == 0)
+	if(q_get_dataSize() == 0)
 	{
 		stop_pwm();
 		return;
 	}
+	
+	q_pop(&pwmDutyData[0]);
 	q_pop(&pwmDutyData[1]);
 	
 	set_pwmDuty(pwmDutyData);

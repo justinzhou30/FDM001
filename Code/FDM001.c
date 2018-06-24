@@ -23,34 +23,35 @@ void main (void)
 
 //	spi_Read(0x00000000 , 16 , spi_rec_data);
 
-	spi_ReadInQ(0x00000000 , 32);
+//	spi_ReadInQ(0x00000000 , 32);
 
-	while(get_spiReadState());
+//	while(get_spiReadState());
 
+////	
+////	for(test_temp = 0 ; test_temp < 16 ; test_temp++)
+////		printf("\n\n%01x , " , spi_rec_data[test_temp]);
 //	
-//	for(test_temp = 0 ; test_temp < 16 ; test_temp++)
-//		printf("\n\n%01x , " , spi_rec_data[test_temp]);
-	
 
-	spi_index = 1;
-
+//	spi_index = 1;
+play_voice(0);
 	while(1)
 	{
 //		P12 = ~P12;
 		if(!--test_temp)
 		{
-			Send_Data_To_UART0(0xaa);
+//			Send_Data_To_UART0(0xaa);
 //			Send_Data_To_UART1(0x55);
-			q_flag = q_pop(&q_data);
-			printf("\n\n%x , " , q_data);
-			
-			if(q_flag < 10)
-			{
-				spi_ReadInQ(0x00000000+spi_index*32 , 32);
-				spi_index++;
-			}
-			
-			test_temp = 5;
+//			q_flag = q_pop(&q_data);
+//			Send_Data_To_UART0(q_data);
+////			printf("\n\n%c , " , q_data);
+//			
+//			if(q_flag < 20)
+//			{
+//				spi_ReadInQ(0x00000000+spi_index*32 , 32);
+//				spi_index++;
+//			}
+//			
+			test_temp =100;
 			
 		}
 		while(!flag_10ms);

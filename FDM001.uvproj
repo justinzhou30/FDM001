@@ -416,6 +416,11 @@
               <FileType>1</FileType>
               <FilePath>.\Code\queue.c</FilePath>
             </File>
+            <File>
+              <FileName>voice.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Code\voice.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
