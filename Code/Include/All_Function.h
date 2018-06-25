@@ -21,10 +21,14 @@ void sys_init(void);
 void pwm_init(void);
 
 void Spi_init(void);
-void spi_Read(UINT32 addr_flash , UINT8 count , UINT8 *Paddr_mcu);
-void spi_ReadInQ(UINT32 addr_flash , UINT8 count);
-UINT8 get_spiReadState(void);
-void spi_server(void);
+//void spi_Read(UINT32 addr_flash , UINT8 count , UINT8 *Paddr_mcu);
+//void spi_ReadInQ(UINT32 addr_flash , UINT8 count);
+//UINT8 get_spiReadState(void);
+//void spi_server(void);
+
+void spi_ReadInit(UINT32 addr_flash);
+UINT8 spi_ReadNextByte(void);
+void spi_ReadStop(void);
 
 void q_init(void);
 void q_push(UINT8 qData);

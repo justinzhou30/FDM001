@@ -39,8 +39,8 @@ void Pwm_ISR (void) interrupt PWM_ISR
 //		temp = 0;
 //	}
 	P12 = ~P12;
-	pwm_intFlag = 0xff;
-//	getVoiceNextData();
+//	pwm_intFlag = 0xff;
+	getVoiceNextData();
 }
 
 void start_pwm(void)
@@ -68,15 +68,12 @@ void set_pwmDuty(UINT8 *pBuffer)
 	temp <<= 8;
 	temp |= *pBuffer;
 	
-	temp >>= 6;						//???????
+	temp >>= 3;						//???????
 	if(temp > 1000)
-		temp = 999;
+		temp = 1000;
 	
 	if(temp == 0)
 		temp = 1;
-
-	PWMPH = 16000000/16000/256;
-	PWMPL = (16000000/16000)%256;
 	
 	PWM3L = (UINT8)temp;
 	PWM3H = (UINT8)(temp>>8);

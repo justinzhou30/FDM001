@@ -56,8 +56,8 @@ play_voice(0);
 		}
 		while(!flag_10ms)
 		{
-			pwm_server();
-			spi_server();
+//			pwm_server();
+//			spi_server();
 		}
 		flag_10ms = FLASE;
 	}
