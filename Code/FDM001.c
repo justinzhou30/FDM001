@@ -58,6 +58,7 @@ play_voice(0);
 		{
 //			pwm_server();
 //			spi_server();
+//			face_server();
 		}
 		flag_10ms = FLASE;
 	}

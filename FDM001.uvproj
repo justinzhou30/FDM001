@@ -421,6 +421,11 @@
               <FileType>1</FileType>
               <FilePath>.\Code\voice.c</FilePath>
             </File>
+            <File>
+              <FileName>fatidog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Code\fatidog.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

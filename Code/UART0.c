@@ -17,6 +17,7 @@ void Uart0_ISR(void) interrupt UART0_ISR
 	
 	if(RI)
 	{
+		face_isr_server();
 		RI = 0;
 	}
 }

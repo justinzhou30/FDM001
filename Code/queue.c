@@ -1,6 +1,9 @@
 #include "All_Function.h"
 
-UINT8 qBuffer[64];
+#define Q_LEN		8
+#define Q_LEN_MASK	(Q_LEN-1)
+
+UINT8 qBuffer[Q_LEN];
 
 UINT8 front;
 UINT8 rear;
@@ -9,7 +12,7 @@ void q_init(void)
 {
 	UINT8 temp;
 	
-	for(temp = 0 ; temp < 64 ; temp++)
+	for(temp = 0 ; temp < Q_LEN ; temp++)
 		qBuffer[temp] = 0;
 	
 	front = 0;
@@ -20,7 +23,7 @@ void q_push(UINT8 qData)
 {
 //	clr_EA;
 	
-	if(((rear+1) & 0x3f) == front)
+	if(((rear+1) & Q_LEN_MASK) == front)
 	{
 //		set_EA;
 		return;
@@ -28,7 +31,7 @@ void q_push(UINT8 qData)
 	
 	qBuffer[rear++] = qData;
 	
-	rear &= 0x3f;
+	rear &= Q_LEN_MASK;
 	
 //	set_EA;
 }
@@ -45,7 +48,7 @@ UINT8 q_pop(UINT8 *qData)
 	
 	*qData = qBuffer[front++];
 	
-	front &= 0x3f;
+	front &= Q_LEN_MASK;
 	
 //	set_EA;
 	
@@ -66,7 +69,7 @@ UINT8 q_get_dataSize(void)
 	if(front > rear)
 	{
 //		set_EA;
-		return (rear+64-front);
+		return (rear+Q_LEN-front);
 	}
 	else
 	{
