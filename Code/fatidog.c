@@ -46,7 +46,7 @@ void face_server(void)
 	UINT8 temp_checksum;
 	UINT8 temp;
 	
-	if(face_recev_stat &= RECEV_COMPLE_MASK)
+	if(face_recev_stat & RECEV_COMPLE_MASK)
 	{
 		face_recev_stat &= ~RECEV_COMPLE_MASK;
 		
@@ -54,7 +54,7 @@ void face_server(void)
 		
 		 temp_checksum = 0;
 		
-		for(temp = 0 ; temp < temp_index ; temp_index++)
+		for(temp = 0 ; temp < temp_index ; temp++)
 			temp_checksum += *(pFace_dealData+temp);					//checksum
 		
 		if(temp_checksum)				//data error
@@ -71,12 +71,16 @@ void face_server(void)
 					switch(*(pFace_dealData+11))
 					{
 						case 0x01:
+							play_voice(0);
 							break;
 						case 0x02:
+							play_voice(0);
 							break;
 						case 0x03:
+							play_voice(0);
 							break;
 						case 0x04:
+							play_voice(0);
 							break;
 						
 						default:

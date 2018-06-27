@@ -42,4 +42,8 @@ void pwm_server(void);
 
 void getVoiceNextData(void);
 void play_voice(UINT8 index);
+
+void face_isr_server(void);
+void face_server(void);
+void face_init(void);
 #endif

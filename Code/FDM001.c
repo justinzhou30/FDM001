@@ -13,10 +13,10 @@ UINT8 flag_10ms;
 void main (void)
 {
   UINT8 test_temp;
-	UINT8 spi_rec_data[16];
-	UINT8	q_data;
-	UINT8 q_flag;
-	UINT8	spi_index;
+//	UINT8 spi_rec_data[16];
+//	UINT8	q_data;
+//	UINT8 q_flag;
+//	UINT8	spi_index;
 	
 	test_temp = 50;
 	sys_init();
@@ -58,7 +58,7 @@ play_voice(0);
 		{
 //			pwm_server();
 //			spi_server();
-//			face_server();
+			face_server();
 		}
 		flag_10ms = FLASE;
 	}

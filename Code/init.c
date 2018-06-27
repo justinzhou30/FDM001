@@ -16,6 +16,8 @@ void sys_init(void)
 	
 	q_init();
 	
+	face_init();
+	
 	set_EA;
 }
 
