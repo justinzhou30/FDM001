@@ -13,12 +13,20 @@ UINT8	face_recev1[32];
 UINT8	face_recev1Index;
 
 
-UINT8 *pFace_recevData;
-UINT8 *pFace_dealData;
+UINT8 *pFace_recevData;			//接收数据的缓冲区
+UINT8 *pFace_dealData;			//处理数据的缓冲区
 
 #define RECEV_INDEX 0x01
 #define RECEV_COMPLE_MASK	0x80
-UINT8	face_recev_stat;
+UINT8	face_recev_stat;		//接收数据的状态
+
+
+UINT8	face_TxIndex;			//发送数据的指针偏移
+UINT8 *pFace_TxData;			//发送数据的缓冲区
+
+#define TX_WORKING	0x01
+#define TX_COMPLE		0x80
+UINT8 face_tx_stat;				//发送数据的状态
 
 #define FATI_STYLE_OFFSET	9
 
@@ -35,9 +43,16 @@ void face_init(void)
 	face_recev_stat = 0;
 }
 
-void face_receData(void)
+void face_txCommand(UINT8 face_command)
 {
+	UINT8 code *pFace_TxDataTemp[] = {FACE_OPEN,FACE_CLOSE,FACE_POSITION,FACE_SETTING};
 	
+	pFace_TxData = pFace_TxDataTemp[face_command];
+	
+	face_tx_stat = TX_WORKING;
+	face_TxIndex = 0;
+	
+	SBUF = *(pFace_TxData+face_TxIndex);
 }
 
 void face_server(void)
@@ -46,7 +61,7 @@ void face_server(void)
 	UINT8 temp_checksum;
 	UINT8 temp;
 	
-	if(face_recev_stat & RECEV_COMPLE_MASK)
+	if(face_recev_stat & RECEV_COMPLE_MASK)				//处理从fati接收的数据
 	{
 		face_recev_stat &= ~RECEV_COMPLE_MASK;
 		
@@ -104,7 +119,26 @@ void face_server(void)
 	}
 }
 
-void face_isr_server(void)
+void face_isr_server_TI(void)
+{
+	static UINT8 temp_len;
+	
+	if(face_tx_stat == TX_WORKING)
+	{
+		if(++face_TxIndex == 1)
+			temp_len = *(pFace_TxData+face_TxIndex);		//发送数据包长度
+		
+		if(face_TxIndex > (temp_len-1))
+		{
+			face_tx_stat = TX_COMPLE;
+			return;
+		}
+		
+		SBUF = *(pFace_TxData + face_TxIndex);
+	}
+}
+
+void face_isr_server_RI(void)
 {
 	static UINT8 temp_len;
 	UINT8 temp_data;
@@ -115,16 +149,16 @@ void face_isr_server(void)
 		face_recev0Index = 0;
 	
 	if(face_recev0Index == 1)
-		temp_len = temp_data;
+		temp_len = temp_data;			//fati 的数据长度
 	
 	*(pFace_recevData+face_recev0Index) = temp_data;
 	face_recev0Index++;
 	
 	if(temp_len == face_recev0Index)
 	{
-		if(face_recev_stat & RECEV_INDEX)
+		if(face_recev_stat & RECEV_INDEX)			//接收缓冲区有两个，交替接收工作
 		{
-			face_recev_stat &= ~RECEV_INDEX;
+			face_recev_stat &= ~RECEV_INDEX;		
 			pFace_recevData = face_recev0;
 			pFace_dealData = face_recev1;
 		}

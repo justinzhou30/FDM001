@@ -12,12 +12,13 @@ void Uart0_ISR(void) interrupt UART0_ISR
 {
 	if(TI)
 	{
+		face_isr_server_TI();
 		TI = 0;
 	}
 	
 	if(RI)
 	{
-		face_isr_server();
+		face_isr_server_RI();
 		RI = 0;
 	}
 }

@@ -39,11 +39,14 @@ void set_pwmDuty(UINT8 *pBuffer);
 void start_pwm(void);
 void stop_pwm(void);
 void pwm_server(void);
+void pwmToMiddle(void);
 
 void getVoiceNextData(void);
 void play_voice(UINT8 index);
 
-void face_isr_server(void);
+void face_isr_server_RI(void);
+void face_isr_server_TI(void);
 void face_server(void);
 void face_init(void);
+void face_txCommand(UINT8 face_command);
 #endif
