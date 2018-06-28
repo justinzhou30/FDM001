@@ -22,8 +22,8 @@ void Uart1_ISR(void) interrupt UART1_ISR
 }
 
 char putchar (char c)  {
-    TI = 0;
-    SBUF = c;
-    while(TI==0);
+    TI_1 = 0;
+    SBUF_1 = c;
+    while(TI_1==0);
 		return c;
 }

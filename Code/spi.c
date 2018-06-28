@@ -266,6 +266,9 @@ void spi_ReadStop(void)
 //	return spiReadState;
 //}
 
+void spi_server(void)
+{
+}
 //void spi_server(void)
 //{
 //	static UINT8 count_flash_bak;

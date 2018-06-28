@@ -79,4 +79,9 @@ UINT8 q_get_dataSize(void)
 		
 }
 
+void q_server(void)
+{
+	
+}
+
 

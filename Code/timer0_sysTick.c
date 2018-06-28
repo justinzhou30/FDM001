@@ -7,6 +7,7 @@
 
 UINT8 u8TH0_Tmp,u8TL0_Tmp;
 extern UINT8 flag_10ms;
+
 void Timer0_init(void)
 {
 	TIMER0_MODE1_ENABLE;

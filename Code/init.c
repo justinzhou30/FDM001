@@ -18,6 +18,12 @@ void sys_init(void)
 	
 	face_init();
 	
+	voice_init();
+	
+	key_init();
+	
+	gps_init();
+	
 	set_EA;
 }
 

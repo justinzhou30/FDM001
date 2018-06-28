@@ -15,11 +15,11 @@ void pwm_init(void)
 	PWMPH = 16000000/15625/256;					//16000000 / 1024 = 15625
 	PWMPL = (16000000/15625)%256;
 	
-//	PWM3H = 0x01;
-//	PWM3L = 0xf4;
+	PWM3H = 0x01;
+	PWM3L = 0xff;
 	
 	clr_EPWM;
-//	clr_LOAD;
+	clr_LOAD;
 	clr_PWMRUN;
 }
 
@@ -41,7 +41,7 @@ void Pwm_ISR (void) interrupt PWM_ISR
 //		Send_Data_To_UART0(0x34);
 //		temp = 0;
 //	}
-	P12 = ~P12;
+//	P12 = ~P12;
 	pwm_intFlag = 0xff;
 //	getVoiceNextData();
 }
@@ -49,7 +49,7 @@ void Pwm_ISR (void) interrupt PWM_ISR
 void start_pwm(void)
 {
 //	printf("\nPWM_start");
-	
+//	return;
 	PWM3H = 0x00;
 	PWM3L = 0x01;
 	

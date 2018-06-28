@@ -30,6 +30,12 @@ UINT8 voiceBufferItem;			//指示用的是哪一个Buffer 0和1
 
 code UINT32 voice_flash_addr[] = {0,0,0,0,0,0,0,0,0,0};
 
+
+void voice_init(void)
+{
+	
+}
+
 UINT32 get_addrFlash(UINT8 index)		//根据索引取得当前声音在flash里面的地址
 {
 	return voice_flash_addr[index];
@@ -66,7 +72,7 @@ void play_voice(UINT8 index)
 	temp[1] = 0x00;
 	voiceDataIndex = 0;
 //	
-	set_pwmDuty(temp);
+//	set_pwmDuty(temp);
 	
 	start_pwm();
 		
@@ -102,3 +108,9 @@ void getVoiceNextData(void)
 			break;
 	}
 }
+
+void voice_server(void)
+{
+	
+}
+
