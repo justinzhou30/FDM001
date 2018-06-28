@@ -314,7 +314,7 @@
             <uAregs>0</uAregs>
             <UseInterruptVector>1</UseInterruptVector>
             <Fuzzy>3</Fuzzy>
-            <Optimize>0</Optimize>
+            <Optimize>9</Optimize>
             <WarningLevel>2</WarningLevel>
             <SizeSpeed>1</SizeSpeed>
             <ObjectExtend>1</ObjectExtend>
@@ -425,6 +425,11 @@
               <FileName>fatidog.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Code\fatidog.c</FilePath>
+            </File>
+            <File>
+              <FileName>key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Code\key.c</FilePath>
             </File>
           </Files>
         </Group>

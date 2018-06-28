@@ -86,16 +86,16 @@ void face_server(void)
 					switch(*(pFace_dealData+11))
 					{
 						case 0x01:
-							play_voice(0);
+							play_voice(VOICE_INDEX_CAREFULLY);
 							break;
 						case 0x02:
-							play_voice(0);
+							play_voice(VOICE_INDEX_WATCHROAD);
 							break;
 						case 0x03:
-							play_voice(0);
+							play_voice(VOICE_INDEX_DANGER);
 							break;
 						case 0x04:
-							play_voice(0);
+							play_voice(VOICE_INDEX_REST);
 							break;
 						
 						default:

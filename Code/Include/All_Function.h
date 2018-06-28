@@ -15,6 +15,19 @@
 #define PWM_ISR		13
 #define SPI_ISR		9
 
+
+#define VOICE_INDEX_WELCOM	1
+#define VOICE_INDEX_FACIALREAD	2
+#define VOICE_INDEX_UNSUCCESSFUL	3
+#define VOICE_INDEX_SUCCESSFUL	4
+#define VOICE_INDEX_WATCHROAD	5
+#define VOICE_INDEX_CAREFULLY	6
+#define VOICE_INDEX_DANGER		7
+#define VOICE_INDEX_REST		8
+#define VOICE_INDEX_STOP		9
+#define VOICE_INDEX_BYE			10
+
+
 void Uart0_init(void);
 void Uart1_init(void);
 void sys_init(void);
@@ -49,4 +62,7 @@ void face_isr_server_TI(void);
 void face_server(void);
 void face_init(void);
 void face_txCommand(UINT8 face_command);
+
+void key_scan_10ms(void);
+void key_server(void);
 #endif

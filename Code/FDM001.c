@@ -55,14 +55,19 @@ play_voice(0);
 //				spi_index++;
 //			}
 //			
+			
 			test_temp =200;
 			
 		}
+		
+		key_scan_10ms();
+		
 		while(!flag_10ms)
 		{
 			pwm_server();
 //			spi_server();
 			face_server();
+			key_server();
 		}
 		flag_10ms = FLASE;
 	}

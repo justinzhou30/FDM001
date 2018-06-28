@@ -17,9 +17,22 @@ UINT8 voicePlayState;
 UINT8 voiceBufferItem;			//指示用的是哪一个Buffer 0和1
 
 
+// #define VOICE_INDEX_WELCOM	1
+// #define VOICE_INDEX_FACIALREAD	2
+// #define VOICE_INDEX_UNSUCCESSFUL	3
+// #define VOICE_INDEX_SUCCESSFUL	4
+// #define VOICE_INDEX_WATCHROAD	5
+// #define VOICE_INDEX_CAREFULLY	6
+// #define VOICE_INDEX_DANGER		7
+// #define VOICE_INDEX_REST		8
+// #define VOICE_INDEX_STOP		9
+// #define VOICE_INDEX_BYE			10
+
+code UINT32 voice_flash_addr[] = {0,0,0,0,0,0,0,0,0,0};
+
 UINT32 get_addrFlash(UINT8 index)		//根据索引取得当前声音在flash里面的地址
 {
-	return 0x00018736;
+	return voice_flash_addr[index];
 }
 
 void play_voice(UINT8 index)
