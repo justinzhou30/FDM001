@@ -6,12 +6,12 @@ UINT8 code FACE_CLOSE[]={0xFB,0x0F,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x02,0x02,
 UINT8 code FACE_POSITION[]={0xFB,0x0F,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x02,0x02,0x04,0x00,0x00,0xEE};
 
 
-
 UINT8 face_recev0[32];
 UINT8	face_recev0Index;
 UINT8	face_recev1[32];
 UINT8	face_recev1Index;
 
+UINT8	face_TxCommandSpeed[64];	//暂存需要发送的命令，用来计算checksum
 
 UINT8 *pFace_recevData;			//接收数据的缓冲区
 UINT8 *pFace_dealData;			//处理数据的缓冲区
@@ -43,9 +43,39 @@ void face_init(void)
 	face_recev_stat = 0;
 }
 
+void face_txCommandSpeed(UINT8 speed)
+{
+	UINT8 temp;
+	UINT8 temp2;
+	
+	for(temp = 0 ; temp < FACE_SETTING[1] ; temp++)
+		face_TxCommandSpeed[temp] = FACE_SETTING[temp];
+	
+	face_TxCommandSpeed[14] = 0x01;		//设置速度标志
+	face_TxCommandSpeed[18] = speed;	//速度
+	
+	temp2 = 0;
+	
+	for(temp = 0 ; temp < FACE_SETTING[1]-1 ; temp++)
+		temp2 += face_TxCommandSpeed[temp];
+	
+	temp2 = ~temp2;						//checksum 必须为0
+	++temp2;
+	
+	face_TxCommandSpeed[temp] = temp2;
+	
+	pFace_TxData = face_TxCommandSpeed;
+	face_TxIndex = 0;
+	
+	SBUF = *(pFace_TxData+face_TxIndex);
+}
+
 void face_txCommand(UINT8 face_command)
 {
 	UINT8 code *pFace_TxDataTemp[] = {FACE_OPEN,FACE_CLOSE,FACE_POSITION,FACE_SETTING};
+	
+	if(face_command > 3)
+		return;
 	
 	pFace_TxData = pFace_TxDataTemp[face_command];
 	

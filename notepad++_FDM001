@@ -1,0 +1,29 @@
+<NotepadPlus>
+    <Project name="FDM001">
+        <Folder name="C">
+            <File name="Code\Common\Delay.c" />
+            <File name="Code\Common\Common.c" />
+            <File name="Code\voice.c" />
+            <File name="Code\UART1.c" />
+            <File name="Code\UART0.c" />
+            <File name="Code\timer0_sysTick.c" />
+            <File name="Code\spi.c" />
+            <File name="Code\queue.c" />
+            <File name="Code\pwm.c" />
+            <File name="Code\init.c" />
+            <File name="Code\FDM001.c" />
+            <File name="Code\fatidog.c" />
+            <File name="Code\key.c" />
+            <File name="Code\GPS.c" />
+        </Folder>
+        <Folder name="h">
+            <File name="Code\Include\All_Function.h" />
+            <File name="Code\Include\Common.h" />
+            <File name="Code\Include\Delay.h" />
+            <File name="Code\Include\Function_Define.h" />
+            <File name="Code\Include\N76E003.h" />
+            <File name="Code\Include\SFR_Macro.h" />
+            <File name="Code\Include\Timer0_sysTick.h" />
+        </Folder>
+    </Project>
+</NotepadPlus>

@@ -26,6 +26,10 @@
 #define VOICE_INDEX_STOP		9
 #define VOICE_INDEX_BYE			10
 
+#define FACE_COMMAND_SETTING	3
+#define FACE_COMMAND_OPEN		0
+#define FACE_COMMAND_CLOSE		1
+#define FACE_COMMAND_POSITION	2
 
 void sys_init(void);
 void Timer0_init(void);
@@ -68,6 +72,7 @@ void face_init(void);
 void face_isr_server_RI(void);
 void face_isr_server_TI(void);
 void face_txCommand(UINT8 face_command);
+void face_txCommandSpeed(UINT8 speed);
 void face_server(void);
 
 
