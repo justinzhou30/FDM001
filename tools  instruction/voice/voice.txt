@@ -1,0 +1,15 @@
+目标文件:E:\work\steven\project\FDM001\tools  instruction\voice\voice.bin   大小:0x00042E76
+各部分大小如下:
+
+索引                        文件名                                            大小              偏移量            强制插入
+ 1      E:\work\steven\project\FDM001\tools  instruction\voice\null.bin        0x00000400        0x00000000             否
+ 2      E:\work\steven\project\FDM001\tools  instruction\voice\1 welcome to use fatigue driving warning monitor.wav        0x0000ACCE        0x00000400             否
+ 3      E:\work\steven\project\FDM001\tools  instruction\voice\2 please watch the road ahead and be ready for facial reading.wav        0x0000E1BC        0x0000B0CE             否
+ 4      E:\work\steven\project\FDM001\tools  instruction\voice\3 reading unsuccessful be ready for facial reading again.wav        0x0000B3AC        0x0001928A             否
+ 5      E:\work\steven\project\FDM001\tools  instruction\voice\4 facial reading successful.wav        0x000055AC        0x00024636             否
+ 6      E:\work\steven\project\FDM001\tools  instruction\voice\5 Please watch the road ahead.wav        0x00005DEE        0x00029BE2             否
+ 7      E:\work\steven\project\FDM001\tools  instruction\voice\6 drive carefully.wav        0x0000394E        0x0002F9D0             否
+ 8      E:\work\steven\project\FDM001\tools  instruction\voice\7 danger 01.wav        0x0000192E        0x0003331E             否
+ 9      E:\work\steven\project\FDM001\tools  instruction\voice\8 fatigue driving please stop and rest 01.wav        0x00008CCE        0x00034C4C             否
+ 10      E:\work\steven\project\FDM001\tools  instruction\voice\9 stop the car now 01.wav        0x0000412E        0x0003D91A             否
+ 11      E:\work\steven\project\FDM001\tools  instruction\voice\10 goodbye 01.wav        0x0000142E        0x00041A48             否
