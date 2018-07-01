@@ -1,9 +1,20 @@
 #include "All_Function.h"
 
+
+#define GPS_NO_SIGNAL_TIME		3000
 code *gpsDataGPVTG = "GPVTG";
+
+static UINT8 gps_returnData;
+static UINT8 gps_returnFlag;	//是否有GPS信号，有则为非0，无则为0
+
+static UINT8 gps_speedData;
+//static UINT8 gps_signalFlag;	//是否有GPS信号，有则为非0，无则为0
 
 void gps_init(void)
 {
+	gps_returnData = 0;
+	gps_returnFlag = 0;
+	gps_speedData = 0;
 }
 
 void gps_rxDataServer(void)
@@ -12,6 +23,9 @@ void gps_rxDataServer(void)
 	static UINT8 temp0;
 	static UINT8 temp1;
 	static UINT8 Uart1RxData[10];
+//	static UINT8 temp_returnData;
+//	static UINT8 temp_returnFlag;
+	
 	
 	UINT8 temp_RxData;
 	
@@ -72,20 +86,35 @@ void gps_rxDataServer(void)
 				break;
 				
 			case 3:							//截取速度并转化存储
-				if(temp_RxData == ',')
+				if((temp_RxData == ',') || (temp_RxData == '.'))
 				{
 					if(temp0 == 0)			//没有测到速度
 					{
 						temp0 = 0;
 						temp1 = 0;
-						rxDataStatus = 0;					
+						rxDataStatus = 0;
 					}
 					else
 					{
 					
-					
-					for(temp1 = 0 ; temp1 < temp0 ; temp1++);
-//						????				//处理速度 justin
+						if(temp0 == 3)
+						{
+							gps_returnData = Uart1RxData[0]*100 + Uart1RxData[1]*10 + Uart1RxData[0];
+							gps_returnFlag = 0xff;
+						}
+						
+						if(temp0 == 2)
+						{
+							gps_returnData = Uart1RxData[0]*10 + Uart1RxData[1];
+							gps_returnFlag = 0xff;
+						}
+						
+						if(temp0 == 1)
+						{
+							gps_returnData = Uart1RxData[0];
+							gps_returnFlag = 0xff;
+						}
+
 					}
 				}
 				else
@@ -99,14 +128,38 @@ void gps_rxDataServer(void)
 		}
 		
 	}
+	
 }
 
 UINT8 get_gpsSpeed(void)
 {
-	return 80;
+	//GPS无信号则返回0xff
+	//其他值则为速度值
+	return gps_speedData;
+}
+
+void gps_Server_10ms(void)
+{
+	static UINT16 temp_time;
+	
+	if(gps_returnFlag)			//无GPS信号
+	{
+		gps_returnFlag = 0;
+		temp_time = 0;
+		gps_speedData = gps_returnData;
+	}
+	else
+	{
+		if(++temp_time > GPS_NO_SIGNAL_TIME)
+		{
+			temp_time = GPS_NO_SIGNAL_TIME + 10;
+			gps_speedData = 0xff;			//超时无GPS信号
+		}
+	}
 }
 
 void gps_server(void)
 {
-	
+	gps_rxDataServer();
 }
+

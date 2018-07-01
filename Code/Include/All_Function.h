@@ -84,6 +84,7 @@ void key_server(void);
 void gps_init(void);
 void gps_rxDataServer(void);
 UINT8 get_gpsSpeed(void);
+void gps_Server_10ms(void);
 void gps_server(void);
 
 

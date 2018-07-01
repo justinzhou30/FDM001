@@ -61,6 +61,7 @@ play_voice(0);
 //		}
 		
 		key_scan_10ms();
+		gps_Server_10ms();
 		
 		while(!flag_10ms)
 		{
