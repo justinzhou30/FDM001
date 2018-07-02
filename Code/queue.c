@@ -1,6 +1,6 @@
 #include "All_Function.h"
 
-#define Q_LEN		8
+#define Q_LEN		32
 #define Q_LEN_MASK	(Q_LEN-1)
 
 UINT8 qBuffer[Q_LEN];
@@ -52,7 +52,7 @@ UINT8 q_pop(UINT8 *qData)
 	
 //	set_EA;
 	
-	return q_get_dataSize();
+	return q_get_dataSize()+1;
 
 }
 

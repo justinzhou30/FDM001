@@ -12,53 +12,29 @@ UINT8 flag_10ms;
 
 void main (void)
 {
-//  UINT8 test_temp;
-//	UINT8 spi_rec_data[16];
-//	UINT8	q_data;
-//	UINT8 q_flag;
-//	UINT8	spi_index;
+	static UINT8 timeCount;
 	
-//	test_temp = 50;
+	UINT8 temp;
+	
 	sys_init();
 
-//	spi_Read(0x00000000 , 16 , spi_rec_data);
-
-//	spi_ReadInQ(0x00000000 , 32);
-
-//	while(get_spiReadState());
-
-////	
-////	for(test_temp = 0 ; test_temp < 16 ; test_temp++)
-////		printf("\n\n%01x , " , spi_rec_data[test_temp]);
-//	
-
-//	spi_index = 1;
-play_voice(0);
+	//play_voice(0);
 	while(1)
 	{
-//		P12 = ~P12;
-//		if(!--test_temp)
-//		{
-//			static UINT8 temp00;
-//			face_txCommand(temp00);
-//			if(++temp00 > 3)
-//				temp00 = 0;
-//			Send_Data_To_UART0(0xaa);
-//			Send_Data_To_UART1(0x55);
-//			q_flag = q_pop(&q_data);
-//			Send_Data_To_UART0(q_data);
-////			printf("\n\n%c , " , q_data);
-//			
-//			if(q_flag < 20)
-//			{
-//				spi_ReadInQ(0x00000000+spi_index*32 , 32);
-//				spi_index++;
-//			}
-//			
+		if(timeCount++ > 200)		//2秒一次
+		{
+			timeCount = 0;
+			temp = get_gpsSpeed();
 			
-//			test_temp =200;
-			
-//		}
+			if(temp == 0xff)		//GPS没有信号
+			{
+				face_txCommandSpeed(65);
+			}
+			else
+			{
+				face_txCommandSpeed(temp);
+			}
+		}
 		
 		key_scan_10ms();
 		gps_Server_10ms();

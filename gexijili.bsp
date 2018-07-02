@@ -4,9 +4,16 @@
   <Latency>0</Latency>
   <Signals>
     <BSSignal>
-      <Name>test</Name>
-      <DataFormat>Hex</DataFormat>
-      <Data>cd</Data>
+      <Name>ERROR</Name>
+      <DataFormat>String</DataFormat>
+      <Data>$GPVTH,0.0,T,0.0,M,30.24,N,56.00,K*48</Data>
+      <Latency>0</Latency>
+      <Active>false</Active>
+    </BSSignal>
+    <BSSignal>
+      <Name>GPVTG</Name>
+      <DataFormat>String</DataFormat>
+      <Data>$GPVTG,0.0,T,0.0,M,30.24,N,50.00,K*48</Data>
       <Latency>0</Latency>
       <Active>false</Active>
     </BSSignal>

@@ -28,7 +28,16 @@ UINT8 voiceBufferItem;			//指示用的是哪一个Buffer 0和1
 // #define VOICE_INDEX_STOP		9
 // #define VOICE_INDEX_BYE			10
 
-code UINT32 voice_flash_addr[] = {0,0,0,0,0,0,0,0,0,0};
+code UINT32 voice_flash_addr[] = {0x00000400,
+																	0x0000b0ce,
+																	0x0001928a,
+																	0x00024636,
+																	0x00029be2,
+																	0x0002f9d0,
+																	0x0003331e,
+																	0x00034c4c,
+																	0x0003d91a,
+																	0x00041a48};
 
 
 void voice_init(void)
@@ -50,8 +59,6 @@ void play_voice(UINT8 index)
 	voiceAddrFlash = get_addrFlash(index);
 	
 	spi_ReadInit(voiceAddrFlash+VOICE_DATA_SIZE_OFFSET);
-	
-	voiceDataSize = 0;
 	
 	temp[0] = spi_ReadNextByte();
 	temp[1] = spi_ReadNextByte();
@@ -98,8 +105,8 @@ void getVoiceNextData(void)
 			else
 			{
 				pwmDutyData[0] = spi_ReadNextByte();
-				pwmDutyData[1] = spi_ReadNextByte();
-				voiceDataIndex += 2;
+//				pwmDutyData[1] = spi_ReadNextByte();
+				voiceDataIndex++;
 				set_pwmDuty(pwmDutyData);
 			}
 			break;

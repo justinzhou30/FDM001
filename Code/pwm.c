@@ -68,42 +68,71 @@ void stop_pwm(void)
 
 void set_pwmDuty(UINT8 *pBuffer)
 {
-	UINT16 temp;
-	UINT16 temp2;
-	UINT8		temp_flag;
+	UINT16 temp16;
+	UINT8 temp;
 	
-	temp = 0;
-	temp |= *(pBuffer+1);
-	temp <<= 8;
-	temp |= *pBuffer;
+	temp = pBuffer[0];
+	temp16 = 0x0200;
 	
-	if(temp & 0x8000)
+	if(pBuffer[0] & 0x80)		//负数
 	{
 		temp = ~temp;
 		temp++;
-		temp_flag = 0xff;
+		temp16 -= temp;
+		temp16 -= temp;
+	}
+	else
+	{
+		temp16 += temp;
+		temp16 += temp;
 	}
 	
+	if(temp16 > 1023)
+		temp16 = 1023;
 	
-	temp >>= 5;						//temp = temp/32			
+	if(temp16 == 0)
+		temp16 = 1;
 	
-	if(temp_flag)
-		temp2 = 512 - temp;
-	else
-		temp2 = 512 + temp;
-	
-	
-//	temp >>= 3;						//???????
-	if(temp2 > 1023)
-		temp2 = 1000;
-	
-	if(temp2 == 0)
-		temp2 = 25;
-	
-	PWM3L = (UINT8)temp2;
-	PWM3H = (UINT8)(temp2>>8);
+	PWM3L = (UINT8)temp16;
+	PWM3H = (UINT8)(temp16>>8);
 	
 	set_LOAD;
+//	UINT16 temp;
+//	UINT16 temp2;
+//	UINT8		temp_flag;
+//	
+//	temp = 0;
+//	temp |= *(pBuffer+1);
+//	temp <<= 8;
+//	temp |= *pBuffer;
+//	
+//	if(temp & 0x8000)
+//	{
+//		temp = ~temp;
+//		temp++;
+//		temp_flag = 0xff;
+//	}
+//	
+//	
+//	temp >>= 5;						//temp = temp/32			
+//	
+//	if(temp_flag)
+//		temp2 = 512 - temp;
+//	else
+//		temp2 = 512 + temp;
+//	
+//	
+////	temp >>= 3;						//???????
+//	if(temp2 > 1023)
+//		temp2 = 1000;
+//	
+//	if(temp2 == 0)
+//		temp2 = 25;
+//	
+//	PWM3L = (UINT8)temp2;
+//	PWM3H = (UINT8)(temp2>>8);
+//	
+//	set_LOAD;
 }
 
 void pwmToMiddle(void)

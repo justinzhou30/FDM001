@@ -1,5 +1,7 @@
 #include "All_Function.h"
 
+//UINT8 uart1RiFlag;
+
 void Uart1_init(void)
 {
 	InitialUART1_Timer3(9600);
@@ -18,6 +20,8 @@ void Uart1_ISR(void) interrupt UART1_ISR
 	if(RI_1)
 	{
 		RI_1 = 0;
+		q_push(SBUF_1);
+//		uart1RiFlag = 0xff;
 	}
 }
 
