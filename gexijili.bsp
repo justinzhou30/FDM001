@@ -13,7 +13,63 @@
     <BSSignal>
       <Name>GPVTG</Name>
       <DataFormat>String</DataFormat>
-      <Data>$GPVTG,0.0,T,0.0,M,30.24,N,50.00,K*48</Data>
+      <Data>$GPVTG,0.0,T,0.0,M,30.24,N,30.00,K*48</Data>
+      <Latency>0</Latency>
+      <Active>false</Active>
+    </BSSignal>
+    <BSSignal>
+      <Name>4</Name>
+      <DataFormat>Hex</DataFormat>
+      <Data>FB 10 00 00 00 00 00 00 00 02 06 02 00 00 04 E7</Data>
+      <Latency>0</Latency>
+      <Active>false</Active>
+    </BSSignal>
+    <BSSignal>
+      <Name>3</Name>
+      <DataFormat>Hex</DataFormat>
+      <Data>FB 10 00 00 00 00 00 00 00 02 06 02 00 00 03 E8</Data>
+      <Latency>0</Latency>
+      <Active>false</Active>
+    </BSSignal>
+    <BSSignal>
+      <Name>2</Name>
+      <DataFormat>Hex</DataFormat>
+      <Data>FB 10 00 00 00 00 00 00 00 02 06 02 00 00 02 E9</Data>
+      <Latency>0</Latency>
+      <Active>false</Active>
+    </BSSignal>
+    <BSSignal>
+      <Name>正视前方2</Name>
+      <DataFormat>Hex</DataFormat>
+      <Data>FB 10 00 00 00 00 00 00 00 02 06 02 00 00 01 Ea</Data>
+      <Latency>0</Latency>
+      <Active>false</Active>
+    </BSSignal>
+    <BSSignal>
+      <Name>tick</Name>
+      <DataFormat>Hex</DataFormat>
+      <Data>FB 0F 00 00 00 00 00 00 00 09 01 09 00 00 E3 </Data>
+      <Latency>0</Latency>
+      <Active>false</Active>
+    </BSSignal>
+    <BSSignal>
+      <Name>开</Name>
+      <DataFormat>Hex</DataFormat>
+      <Data>FB 0F 00 00 00 00 00 00 00 02 01 02 00 00 F1</Data>
+      <Latency>0</Latency>
+      <Active>false</Active>
+    </BSSignal>
+    <BSSignal>
+      <Name>关</Name>
+      <DataFormat>Hex</DataFormat>
+      <Data>FB 0F 00 00 00 00 00 00 00 02 02 02 00 00 F0</Data>
+      <Latency>0</Latency>
+      <Active>false</Active>
+    </BSSignal>
+    <BSSignal>
+      <Name>位置</Name>
+      <DataFormat>Hex</DataFormat>
+      <Data>FB 0F 00 00 00 00 00 00 00 02 04 02 00 00 EE</Data>
       <Latency>0</Latency>
       <Active>false</Active>
     </BSSignal>

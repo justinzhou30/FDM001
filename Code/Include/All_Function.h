@@ -71,6 +71,7 @@ void voice_server(void);
 void face_init(void);
 void face_isr_server_RI(void);
 void face_isr_server_TI(void);
+void face_server_10ms(void);
 void face_txCommand(UINT8 face_command);
 void face_txCommandSpeed(UINT8 speed);
 void face_server(void);
@@ -79,7 +80,7 @@ void face_server(void);
 void key_init(void);
 void key_scan_10ms(void);
 void key_server(void);
-
+void openCloseServer_10ms(void);
 
 void gps_init(void);
 void gps_rxDataServer(void);
@@ -87,5 +88,5 @@ UINT8 get_gpsSpeed(void);
 void gps_Server_10ms(void);
 void gps_server(void);
 
-
+void SW_Reset0(void);
 #endif

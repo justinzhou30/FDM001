@@ -4,7 +4,7 @@ code UINT8 FACE_SETTING[]={0xFB,0x33,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x02,0x0
 code UINT8 FACE_SPEED[]={0xFB,0x33,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x02,0x03,0x02,0x00,0x00,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x63};
 code UINT8 FACE_OPEN[]={0xFB,0x0F,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x02,0x01,0x02,0x00,0x00,0xF1};
 code UINT8 FACE_CLOSE[]={0xFB,0x0F,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x02,0x02,0x02,0x00,0x00,0xF0};
-code UINT8 FACE_POSITION[]={0xFB,0x0F,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x02,0x02,0x04,0x00,0x00,0xEE};
+code UINT8 FACE_POSITION[]={0xFB,0x0F,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x02,0x04,0x02,0x00,0x00,0xEE};
 
 
 UINT8 face_recev0[32];
@@ -17,9 +17,13 @@ UINT8	face_TxCommandSpeed[64];	//暂存需要发送的命令，用来计算check
 UINT8 *pFace_recevData;			//接收数据的缓冲区
 UINT8 *pFace_dealData;			//处理数据的缓冲区
 
+UINT8 fatiFacePosition;			//人脸检测模式
+UINT8	fatiPositionFlag;			//是否检测到有人脸
+
+
 #define RECEV_INDEX 0x01
 #define RECEV_COMPLE_MASK	0x80
-UINT8	face_recev_stat;		//接收数据的状态
+UINT8	face_recev_stat;			//接收数据的状态
 
 
 UINT8	face_TxIndex;			//发送数据的指针偏移
@@ -42,6 +46,7 @@ void face_init(void)
 	pFace_recevData = face_recev0;
 	pFace_dealData = face_recev1;
 	face_recev_stat = 0;
+	P13 = 0;
 }
 
 void face_txCommandSpeed(UINT8 speed)
@@ -88,11 +93,44 @@ void face_txCommand(UINT8 face_command)
 	SBUF = *(pFace_TxData+face_TxIndex);
 }
 
+void face_server_10ms(void)
+{
+	UINT16 temp_times;
+	
+	if(fatiFacePosition)
+	{
+		if(++temp_times > 450)
+		{
+			temp_times = 0;
+			
+			if(fatiPositionFlag)		//检测到有人
+			{
+				fatiFacePosition = 0;
+				P13 = 0;
+				play_voice(VOICE_INDEX_SUCCESSFUL);
+			}
+			else
+			{
+				play_voice(VOICE_INDEX_UNSUCCESSFUL);
+				face_txCommand(FACE_COMMAND_POSITION);
+			}
+		}
+	}
+}
+
 void face_server(void)
 {
 	UINT8 temp_index;
 	UINT8 temp_checksum;
 	UINT8 temp;
+	
+//	UINT16	temp_left;
+//	UINT16	temp_right;
+//	UINT16	temp_top;
+//	UINT16	temp_bottom;
+//	
+//	UINT8	temp_angle;
+//	UINT8	temp_light;
 	
 	if(face_recev_stat & RECEV_COMPLE_MASK)				//处理从fati接收的数据
 	{
@@ -119,6 +157,9 @@ void face_server(void)
 			case FATI_STYLE_TIRED:
 				if(*(pFace_dealData+10) == 0x06)
 				{
+					if(fatiFacePosition)		//在人脸校正模式，不执行此功能
+						break;
+					
 					switch(*(pFace_dealData+14))
 					{
 						case 0x01:
@@ -150,7 +191,40 @@ void face_server(void)
 			case FATI_STYLE_SYS:
 				break;
 			
-			case FATI_STYLE_ACK:
+			case FATI_STYLE_ACK:			
+				if((*(pFace_dealData+10) == 0x04) && (*(pFace_dealData+11) == 0x02))
+				{
+					if(*(pFace_dealData+13) == 0x00)
+					{
+						fatiPositionFlag = *(pFace_dealData+14);	//是否检测到有人
+						
+//						
+//						temp_left = *(pFace_dealData+16);
+//						temp_left <<= 8;
+//						temp_left |= *(pFace_dealData+15);
+//						
+//						temp_top = *(pFace_dealData+18);
+//						temp_top <<= 8;
+//						temp_top |= *(pFace_dealData+17);
+//						
+//						temp_right = *(pFace_dealData+20);
+//						temp_right <<= 8;
+//						temp_right |= *(pFace_dealData+19);
+//						
+//						temp_bottom = *(pFace_dealData+22);
+//						temp_bottom <<= 8;
+//						temp_bottom |= *(pFace_dealData+21);
+//						
+//						temp_angle = *(pFace_dealData+23);
+//						
+//						temp_light = *(pFace_dealData+24);
+
+//						facePositionFlag = 0xff;
+
+						//   判断数据是否合适
+						
+					}
+				}
 				break;
 			
 			default:

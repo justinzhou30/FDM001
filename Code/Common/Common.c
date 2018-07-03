@@ -123,12 +123,12 @@ void Send_Data_To_UART1 (UINT8 c)
 
 
 /*==========================================================================*/
-#ifdef SW_Reset
-void SW_Reset(void)
+//#ifdef SW_Reset
+void SW_Reset0(void)
 {
     TA = 0xAA;
     TA = 0x55;
     set_SWRST;
 }
-#endif
+//#endif
 /*==========================================================================*/

@@ -28,7 +28,8 @@ UINT8 voiceBufferItem;			//指示用的是哪一个Buffer 0和1
 // #define VOICE_INDEX_STOP		9
 // #define VOICE_INDEX_BYE			10
 
-code UINT32 voice_flash_addr[] = {0x00000400,
+code UINT32 voice_flash_addr[] = {0,
+																	0x00000400,
 																	0x0000b0ce,
 																	0x0001928a,
 																	0x00024636,

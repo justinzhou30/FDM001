@@ -18,7 +18,12 @@ void main (void)
 	
 	sys_init();
 
-	//play_voice(0);
+	Timer2_Delay500us(3000);
+	
+	
+	face_txCommand(FACE_COMMAND_OPEN);
+	play_voice(VOICE_INDEX_WELCOM);
+	
 	while(1)
 	{
 		if(timeCount++ > 200)		//2秒一次
@@ -38,6 +43,8 @@ void main (void)
 		
 		key_scan_10ms();
 		gps_Server_10ms();
+		face_server_10ms();
+		openCloseServer_10ms();
 		
 		while(!flag_10ms)
 		{
