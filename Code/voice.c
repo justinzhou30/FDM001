@@ -28,17 +28,17 @@ UINT8 voiceBufferItem;			//指示用的是哪一个Buffer 0和1
 // #define VOICE_INDEX_STOP		9
 // #define VOICE_INDEX_BYE			10
 
-code UINT32 voice_flash_addr[] = {0,
-																	0x00000400,
-																	0x0000b0ce,
-																	0x0001928a,
-																	0x00024636,
-																	0x00029be2,
-																	0x0002f9d0,
-																	0x0003331e,
-																	0x00034c4c,
-																	0x0003d91a,
-																	0x00041a48};
+//code UINT32 voice_flash_addr[] = {0,
+//																	0x00000400,
+//																	0x0000b0ce,
+//																	0x0001928a,
+//																	0x00024636,
+//																	0x00029be2,
+//																	0x0002f9d0,
+//																	0x0003331e,
+//																	0x00034c4c,
+//																	0x0003d91a,
+//																	0x00041a48};
 
 
 void voice_init(void)
@@ -48,7 +48,43 @@ void voice_init(void)
 
 UINT32 get_addrFlash(UINT8 index)		//根据索引取得当前声音在flash里面的地址
 {
-	return voice_flash_addr[index];
+	UINT8 temp[4];
+	UINT32 temp32;
+	
+	if((index > 0) && (index < 11))
+	{
+		temp32 = 0;
+		temp32 |= index;
+		temp32 <<= 4;
+		
+		spi_ReadInit(temp32);
+	
+		temp[0] = spi_ReadNextByte();
+		temp[1] = spi_ReadNextByte();
+		temp[2] = spi_ReadNextByte();
+		temp[3] = spi_ReadNextByte();
+		spi_ReadStop();
+		
+		temp32 = 0;
+		
+		temp32 |= temp[3];
+		temp32 <<= 8;
+		temp32 |= temp[2];
+		temp32 <<= 8;
+		temp32 |= temp[1];
+		temp32 <<= 8;
+		temp32 |= temp[0];
+		
+//		putchar(temp[3]);
+//		putchar(temp[2]);
+//		putchar(temp[1]);
+//		putchar(temp[0]);
+		return temp32;
+	}
+	else
+	{
+		return 0x00;
+	}
 }
 
 void play_voice(UINT8 index)
@@ -84,7 +120,7 @@ void play_voice(UINT8 index)
 	
 	start_pwm();
 		
-		voicePlayState = VOICE_PLAY_STATE1;
+		voicePlayState = VOICE_PLAY_STATE2;
 }
 
 
@@ -101,6 +137,7 @@ void getVoiceNextData(void)
 		case VOICE_PLAY_STATE2:		
 			if(voiceDataIndex == voiceDataSize)
 			{
+				spi_ReadStop();
 				stop_pwm();
 			}
 			else

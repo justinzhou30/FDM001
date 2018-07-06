@@ -8,6 +8,10 @@ extern UINT8 voicePlayState;
 void pwm_init(void)
 {
 	PWM3_P04_OUTPUT_ENABLE;
+//	P0M1 |= 0x0;
+	P0M2 |= 0x10;							//增加IO口电流
+//	set_P0SR_4;
+	
 	PWM_CLOCK_FSYS;
 	PWM_INT_PWM3;
 	PWM_RISING_INT;
@@ -72,8 +76,9 @@ void set_pwmDuty(UINT8 *pBuffer)
 	UINT8 temp;
 	
 	temp = pBuffer[0];
-	temp16 = 0x0200;
-	
+//	temp16 = 0x0200;
+
+#if 0	
 	if(pBuffer[0] & 0x80)		//负数
 	{
 		temp = ~temp;
@@ -86,12 +91,23 @@ void set_pwmDuty(UINT8 *pBuffer)
 		temp16 += temp;
 		temp16 += temp;
 	}
+
+	if(temp16 > 999)
+		temp16 = 999;
+	
+	if(temp16 == 0)
+		temp16 = 1;
+#else
+	temp16 = temp;
+	temp16 <<= 2;
 	
 	if(temp16 > 1023)
 		temp16 = 1023;
 	
 	if(temp16 == 0)
 		temp16 = 1;
+//	temp16 += temp;
+#endif
 	
 	PWM3L = (UINT8)temp16;
 	PWM3H = (UINT8)(temp16>>8);

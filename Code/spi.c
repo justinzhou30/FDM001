@@ -185,7 +185,7 @@ UINT8 spi_ReadNextByte(void)
 
 void spi_ReadStop(void)
 {
-	SS_PIN = 0;
+	SS_PIN = 1;
 	clr_SPIEN;
 }
 

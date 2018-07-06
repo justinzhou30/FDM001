@@ -1,0 +1,15 @@
+目标文件:E:\work\steven\project\FDM001\tools  instruction\voice\new voice\new_voice.bin   大小:0x0004A23E
+各部分大小如下:
+
+索引                        文件名                                            大小              偏移量            强制插入
+ 1      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\null.bin        0x00000400        0x00000000             否
+ 2      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\1.wav        0x0000B4D8        0x00000400             否
+ 3      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\2.wav        0x0000C860        0x0000B8D8             否
+ 4      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\3.wav        0x0000D224        0x00018138             否
+ 5      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\4.wav        0x00006448        0x0002535C             否
+ 6      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\5.wav        0x00005E2E        0x0002B7A4             否
+ 7      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\6.wav        0x0000448A        0x000315D2             否
+ 8      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\7.wav        0x000029B0        0x00035A5C             否
+ 9      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\8.wav        0x0000A76C        0x0003840C             否
+ 10      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\9.wav        0x00004AA6        0x00042B78             否
+ 11      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\10.wav        0x00002C20        0x0004761E             否
