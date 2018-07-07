@@ -13,12 +13,13 @@ UINT8 flag_10ms;
 void main (void)
 {
 	static UINT8 timeCount;
+//	static alarmFlag;
 	
 	UINT8 temp;
 	
 	sys_init();
 
-	Timer2_Delay500us(3000);
+	Timer2_Delay500us(1500);
 	
 	
 	face_txCommand(FACE_COMMAND_OPEN);
@@ -33,11 +34,14 @@ void main (void)
 			
 			if(temp == 0xff)		//GPS没有信号
 			{
-				face_txCommandSpeed(65);
+				face_closeAlarm();
 			}
 			else
 			{
-				face_txCommandSpeed(temp);
+				if(temp > 5)		//speed > 5km
+					face_openAlarm();
+				else
+					face_closeAlarm();
 			}
 		}
 		

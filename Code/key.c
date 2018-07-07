@@ -1,7 +1,7 @@
 #include "All_Function.h"
 
 #define KEY_INPUT	P17
-#define KEY_PRESSTIME	100
+#define KEY_PRESSTIME	220
 #define KEY_DEBANCE		2
 
 

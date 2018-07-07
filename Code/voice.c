@@ -46,6 +46,16 @@ void voice_init(void)
 	
 }
 
+void voice_IC_close(void)
+{
+	P03 = 0;
+}
+
+void voice_IC_open(void)
+{
+	P03 = 1;
+}
+
 UINT32 get_addrFlash(UINT8 index)		//根据索引取得当前声音在flash里面的地址
 {
 	UINT8 temp[4];
@@ -112,8 +122,8 @@ void play_voice(UINT8 index)
 	voiceDataSize <<= 8;
 	voiceDataSize |= temp[0];
 	
-	temp[0] = 0x01;
-	temp[1] = 0x00;
+	temp[0] = 0x00;
+	temp[1] = 0x02;
 	voiceDataIndex = 0;
 //	
 //	set_pwmDuty(temp);
@@ -137,11 +147,13 @@ void getVoiceNextData(void)
 		case VOICE_PLAY_STATE2:		
 			if(voiceDataIndex == voiceDataSize)
 			{
+				voice_IC_close();
 				spi_ReadStop();
 				stop_pwm();
 			}
 			else
 			{
+				voice_IC_open();
 				pwmDutyData[0] = spi_ReadNextByte();
 //				pwmDutyData[1] = spi_ReadNextByte();
 				voiceDataIndex++;
@@ -154,8 +166,10 @@ void getVoiceNextData(void)
 	}
 }
 
+
+
 void voice_server(void)
 {
-	
+
 }
 

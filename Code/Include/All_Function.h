@@ -74,6 +74,8 @@ void face_isr_server_TI(void);
 void face_server_10ms(void);
 void face_txCommand(UINT8 face_command);
 void face_txCommandSpeed(UINT8 speed);
+void face_openAlarm(void);
+void face_closeAlarm(void);
 void face_server(void);
 
 

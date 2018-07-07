@@ -154,6 +154,8 @@ void gps_Server_10ms(void)
 			temp_time = GPS_NO_SIGNAL_TIME + 10;
 			gps_speedData = 0xff;			//超时无GPS信号
 		}
+		else
+			gps_speedData = 100;
 	}
 }
 
