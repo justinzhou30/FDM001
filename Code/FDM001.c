@@ -13,6 +13,7 @@ UINT8 flag_10ms;
 void main (void)
 {
 	static UINT8 timeCount;
+	static UINT8 timeCount30s;
 //	static alarmFlag;
 	
 	UINT8 temp;
@@ -38,10 +39,19 @@ void main (void)
 			}
 			else
 			{
-				if(temp > 5)		//speed > 5km
+				if(temp > 4)		//speed > 5km
+				{
+					timeCount30s = 0;
 					face_openAlarm();
+				}
 				else
-					face_closeAlarm();
+				{
+					if(++timeCount30s > 15)
+					{
+						timeCount30s = 16;
+						face_closeAlarm();
+					}
+				}
 			}
 		}
 		
