@@ -12,7 +12,7 @@ UINT8 flag_10ms;
 
 void main (void)
 {
-	static UINT8 timeCount;
+	static UINT16 timeCount;
 	static UINT8 timeCount30s;
 //	static alarmFlag;
 	
@@ -20,12 +20,30 @@ void main (void)
 	
 	sys_init();
 
-	Timer2_Delay500us(1500);
-	
-	
-	face_txCommand(FACE_COMMAND_OPEN);
+	Timer2_Delay500us(1000);		//dealy 0.5s
+
+
 	play_voice(VOICE_INDEX_WELCOM);
-	
+
+	while(1)
+	{
+		if(++timeCount > 600)			//delay  等face模块上电初始化完成
+		{
+			timeCount = 0;
+			break;
+		}
+
+		while(!flag_10ms)
+		{
+			pwm_server();
+			spi_server();
+		}
+		flag_10ms = FLASE;
+	}
+
+	face_txCommand(FACE_COMMAND_OPEN);
+
+		
 	while(1)
 	{
 		if(timeCount++ > 200)		//2秒一次
