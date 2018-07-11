@@ -155,12 +155,15 @@ void face_server(void)
 		for(temp = 0 ; temp < temp_index ; temp++)
 		{
 			//putchar(*(pFace_dealData+temp));
+			putchar(*(pFace_dealData+temp));
 			temp_checksum += *(pFace_dealData+temp);					//checksum
 		}
 		
 		if(temp_checksum)				//data error
 			return;
 		
+		//putchar(0x84);
+
 		switch(*(pFace_dealData+FATI_STYLE_OFFSET))
 		{
 			case FATI_STYLE_FACE:
