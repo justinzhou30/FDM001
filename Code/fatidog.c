@@ -155,7 +155,6 @@ void face_server(void)
 		for(temp = 0 ; temp < temp_index ; temp++)
 		{
 			//putchar(*(pFace_dealData+temp));
-			putchar(*(pFace_dealData+temp));
 			temp_checksum += *(pFace_dealData+temp);					//checksum
 		}
 		

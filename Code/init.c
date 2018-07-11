@@ -28,11 +28,8 @@ void sys_init(void)
 
 	P1M2 |= 0x08;
 
-<<<<<<< Updated upstream
-=======
 	P03 = 1;
 	
->>>>>>> Stashed changes
 	set_EA;
 }
 
