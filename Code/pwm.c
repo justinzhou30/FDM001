@@ -99,7 +99,7 @@ void set_pwmDuty(UINT8 *pBuffer)
 		temp16 = 1;
 #else
 	temp16 = temp;
-	temp16 <<= 2;
+	// temp16 <<= 2;
 	
 	if(temp16 > 1023)
 		temp16 = 1023;

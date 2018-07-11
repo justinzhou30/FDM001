@@ -24,6 +24,10 @@ void sys_init(void)
 	
 	gps_init();
 	
+	P0M2 |= 0x18;
+
+	P1M2 |= 0x08;
+
 	set_EA;
 }
 

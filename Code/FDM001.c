@@ -24,6 +24,7 @@ void main (void)
 
 
 	play_voice(VOICE_INDEX_WELCOM);
+	// play_voice(VOICE_INDEX_FACIALREAD);
 
 	while(1)
 	{

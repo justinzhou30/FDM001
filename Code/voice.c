@@ -48,12 +48,12 @@ void voice_init(void)
 
 void voice_IC_close(void)
 {
-	P03 = 0;
+	// P03 = 0;
 }
 
 void voice_IC_open(void)
 {
-	P03 = 1;
+	// P03 = 1;
 }
 
 UINT32 get_addrFlash(UINT8 index)		//根据索引取得当前声音在flash里面的地址
