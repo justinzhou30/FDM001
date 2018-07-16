@@ -2,4 +2,5 @@
 /output/*
 !/output/FDM001.hex
 !/output/FDM001.bin
-
+/FDM001.si4project
+/.vscode
