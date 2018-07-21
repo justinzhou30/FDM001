@@ -13,6 +13,13 @@ UINT8 voicePlayState;
 //UINT8 voiceBuffer0[32];
 
 #define VOICE_BUFFER_INDEX_MAX		16
+UINT8 voiceIndexBuffer[8];			//语音播放缓冲
+UINT8 voiceIndexF;								//指向语音播放缓冲
+UINT8 voiceIndexB;							
+
+#define VOICE_STATE_PLAY		1
+#define VOICE_STATE_STOP		2
+UINT8 voiceState;
 
 UINT8 voiceBufferItem;			//指示用的是哪一个Buffer 0和1
 
@@ -40,11 +47,26 @@ UINT8 voiceBufferItem;			//指示用的是哪一个Buffer 0和1
 //																	0x0003d91a,
 //																	0x00041a48};
 
+static void voice_setPlayState(UINT8 stateData)
+{
+	voiceState = stateData;
+}
+
+static UINT8 voice_getPlayState(void)
+{
+	return voiceState;
+}
 
 void voice_init(void)
 {
+	for(voiceIndexF = 0 ; voiceIndexF < 8 ; voiceIndexF++)
+		voiceIndexBuffer[voiceIndexF] = 0;
 	
+	voiceIndexB = 0;
+	voiceIndexF = 0;
+	voice_setPlayState(VOICE_STATE_STOP);
 }
+
 
 void voice_IC_close(void)
 {
@@ -99,7 +121,19 @@ UINT32 get_addrFlash(UINT8 index)		//根据索引取得当前声音在flash里�
 
 void play_voice(UINT8 index)
 {
+	if(((voiceIndexF+1)&0x07) == voiceIndexB)
+		return;													//播放列表满
+	
+	
+	voiceIndexBuffer[voiceIndexF++] = index;
+	voiceIndexF &= 0x07;
+}
+
+void play_voiceBak(UINT8 index)
+{
 	UINT8 temp[4];
+	
+	voice_setPlayState(VOICE_STATE_PLAY);
 	
 	stop_pwm();
 
@@ -141,12 +175,13 @@ void getVoiceNextData(void)
 	switch(voicePlayState)
 	{
 		case VOICE_PLAY_STATE1:
-			pwmToMiddle();
+			pwmToMiddle();					//去爆破音
 			break;
 		
 		case VOICE_PLAY_STATE2:		
 			if(voiceDataIndex == voiceDataSize)
 			{
+				voice_setPlayState(VOICE_STATE_STOP);
 				voice_IC_close();
 				spi_ReadStop();
 				stop_pwm();
@@ -170,6 +205,13 @@ void getVoiceNextData(void)
 
 void voice_server(void)
 {
-
+	if(voiceIndexF == voiceIndexB)
+		return;									//播放列表空
+	
+	if(voice_getPlayState() == VOICE_STATE_STOP)
+	{
+		play_voiceBak(voiceIndexBuffer[voiceIndexB++]);
+		voiceIndexB &= 0x07;
+	}
 }
 

@@ -1,7 +1,7 @@
 #include "All_Function.h"
 
 
-#define GPS_NO_SIGNAL_TIME		3000
+#define GPS_NO_SIGNAL_TIME		5//3000
 code char *gpsDataGPVTG = "GPVTG";
 
 static UINT8 gps_returnData;

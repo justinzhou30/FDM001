@@ -43,12 +43,31 @@ UINT8 face_tx_stat;				//鍙戦�佹暟鎹殑鐘舵�?
 #define FATI_STYLE_SIGN		0x03
 #define FATI_STYLE_SYS		0x09
 #define FATI_STYLE_ACK		0x12
+
+
+//#define FATI_WARRING_CLOSE	0		//警告开关
+//#define FATI_WARRING_OPEN		1
+UINT8 fati_warringState;
+
+UINT8	fati_warring;			//来一次警告就置位，在主循环里判断5km以下有没有人
+void fati_setWarringState(UINT8 state)
+{
+	fati_warringState = state;
+}
+
+UINT8 fati_getWarringState(void)
+{
+	return fati_warringState;
+}
+
 void face_init(void)
 {
 	pFace_recevData = face_recev0;
 	pFace_dealData = face_recev1;
 	face_recev_stat = 0;
 	P13 = 0;
+	fati_warring = 0;
+	fati_setWarringState(FATI_WARRING_OPEN);
 }
 
 void face_txCommandSpeed(UINT8 speed)
@@ -108,8 +127,8 @@ void face_txCommand(UINT8 face_command)
 void face_server_10ms(void)
 {
 	static UINT16 temp_times;
-	
-	if(fatiFacePosition)
+	extern UINT8 timeCount30s;
+	if(fatiFacePosition)		//长按按键后进入扫脸功能
 	{
 		if(++temp_times > 450)
 		{
@@ -125,6 +144,23 @@ void face_server_10ms(void)
 			{
 				play_voice(VOICE_INDEX_UNSUCCESSFUL);
 				face_txCommand(FACE_COMMAND_POSITION);
+			}
+		}else{}
+	}
+	else
+	{
+		if(++temp_times > 350)
+		{
+			temp_times = 0;
+			
+			if(fati_warring)
+			{
+				fati_warring = 0;
+			}
+			else
+			{
+				timeCount30s = 0;
+				fati_setWarringState(FATI_WARRING_OPEN);
 			}
 		}
 	}
@@ -178,19 +214,30 @@ void face_server(void)
 					{
 						case 0x01:
 							//putchar(0x01);
-							play_voice(VOICE_INDEX_CAREFULLY);
+							fati_warring = 1;
+							if(fati_getWarringState()  == FATI_WARRING_OPEN)
+								play_voice(VOICE_INDEX_CAREFULLY);
 							break;
+							
 						case 0x02:
 							//putchar(0x02);
-							play_voice(VOICE_INDEX_WATCHROAD);
+							fati_warring = 1;
+							if(fati_getWarringState()  == FATI_WARRING_OPEN)
+								play_voice(VOICE_INDEX_WATCHROAD);
 							break;
+							
 						case 0x03:
 							//putchar(0x03);
-							play_voice(VOICE_INDEX_DANGER);
+							fati_warring = 1;
+							if(fati_getWarringState()  == FATI_WARRING_OPEN)
+								play_voice(VOICE_INDEX_DANGER);
 							break;
+							
 						case 0x04:
 							//putchar(0x04);
-							play_voice(VOICE_INDEX_REST);
+							fati_warring = 1;
+							if(fati_getWarringState()  == FATI_WARRING_OPEN)
+								play_voice(VOICE_INDEX_REST);
 							break;
 						
 						default:

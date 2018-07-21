@@ -140,7 +140,8 @@ void openCloseServer_10ms(void)
 			if(temp++ > 251)
 			{
 //				putchar(10);
-				// P03 = 0;
+				P03 = 0;
+				P12 = 0;
 				runState = 0;
 			}
 			break;

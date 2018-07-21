@@ -32,6 +32,9 @@
 #define FACE_COMMAND_POSITION	2
 #define FACE_COMMAND_BOUNDRATE	4
 
+#define FATI_WARRING_CLOSE	0		//¾¯¸æ¿ª¹Ø
+#define FATI_WARRING_OPEN		1
+
 void sys_init(void);
 void Timer0_init(void);
 void Uart0_init(void);
@@ -78,6 +81,8 @@ void face_txCommand(UINT8 face_command);
 void face_txCommandSpeed(UINT8 speed);
 void face_openAlarm(void);
 void face_closeAlarm(void);
+UINT8 fati_getWarringState(void);
+void fati_setWarringState(UINT8 state);
 void face_server(void);
 
 

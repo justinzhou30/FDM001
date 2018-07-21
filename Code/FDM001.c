@@ -10,11 +10,12 @@ extern UINT8 fatiFacePosition;
 ************************************************************************************************************/
 UINT8 flag_10ms;
 
+UINT8 timeCount30s;
 
 void main (void)
 {
 	static UINT16 timeCount;
-	static UINT8 timeCount30s;
+
 //	static alarmFlag;
 	
 	UINT8 temp;
@@ -39,6 +40,7 @@ void main (void)
 		{
 			pwm_server();
 			spi_server();
+			voice_server();
 		}
 		flag_10ms = FLASE;
 	}
@@ -70,21 +72,32 @@ void main (void)
 			
 			if(temp == 0xff)		//GPS没有信号
 			{
-				face_closeAlarm();
+				if(fati_getWarringState() == FATI_WARRING_OPEN)
+				{
+					if(++timeCount30s > 15)
+					{
+						timeCount30s = 16;
+						fati_setWarringState(FATI_WARRING_CLOSE);
+					}else{}
+				}else{}
+				//face_closeAlarm();
 			}
 			else
 			{
 				if(temp > 4)		//speed > 5km
 				{
 					timeCount30s = 0;
-					face_openAlarm();
+					fati_setWarringState(FATI_WARRING_OPEN);
 				}
 				else
 				{
-					if(++timeCount30s > 15)
+					if(fati_getWarringState() == FATI_WARRING_OPEN)
 					{
-						timeCount30s = 16;
-						face_closeAlarm();
+						if(++timeCount30s > 15)
+						{
+							timeCount30s = 16;
+							fati_setWarringState(FATI_WARRING_CLOSE);
+						}
 					}
 				}
 			}
