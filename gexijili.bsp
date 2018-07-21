@@ -39,11 +39,18 @@
       <Active>false</Active>
     </BSSignal>
     <BSSignal>
+      <Name>修改波特率</Name>
+      <DataFormat>Hex</DataFormat>
+      <Data>fb 10 00 00 00 00 00 00</Data>
+      <Latency>0</Latency>
+      <Active>false</Active>
+    </BSSignal>
+    <BSSignal>
       <Name>正视前方2</Name>
       <DataFormat>Hex</DataFormat>
       <Data>FB 10 00 00 00 00 00 00 00 02 06 02 00 00 01 Ea</Data>
-      <Latency>0</Latency>
-      <Active>false</Active>
+      <Latency>2000</Latency>
+      <Active>true</Active>
     </BSSignal>
     <BSSignal>
       <Name>tick</Name>

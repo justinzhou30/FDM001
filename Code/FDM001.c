@@ -62,7 +62,7 @@ void main (void)
 		
 	while(1)
 	{
-		if((timeCount++ > 200) && (fatiFacePosition == 0))		//2秒一次 //长按按键
+		if(timeCount++ > 200)		//2秒一次 //长按按键
 		{
 			timeCount = 0;
 			
