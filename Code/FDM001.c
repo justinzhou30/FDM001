@@ -41,7 +41,21 @@ void main (void)
 		}
 		flag_10ms = FLASE;
 	}
-
+	
+	face_txCommand(FACE_COMMAND_BOUNDRATE);	//修改视频模块波特率
+	while(1)
+		{
+			if(++timeCount > 100) 		//delay  等face模块上电初始化完成
+			{
+				timeCount = 0;
+				break;
+			}
+	
+			while(!flag_10ms);
+			flag_10ms = FLASE;
+		}
+	
+	Uart0_init9600();
 	face_txCommand(FACE_COMMAND_OPEN);
 
 		

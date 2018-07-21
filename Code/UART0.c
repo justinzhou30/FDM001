@@ -8,6 +8,13 @@ void Uart0_init(void)
 	set_ES;
 }
 
+void Uart0_init9600(void)
+{
+	InitialUART0_Timer1(9600);
+	
+	set_ES;
+}
+
 void Uart0_ISR(void) interrupt UART0_ISR
 {
 	if(TI)

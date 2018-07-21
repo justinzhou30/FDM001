@@ -7,7 +7,7 @@ code UINT8 FACE_SPEED[]={0xFB,0x33,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x02,0x03,
 code UINT8 FACE_OPEN[]={0xFB,0x0F,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x02,0x01,0x02,0x00,0x00,0xF1};
 code UINT8 FACE_CLOSE[]={0xFB,0x0F,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x02,0x02,0x02,0x00,0x00,0xF0};
 code UINT8 FACE_POSITION[]={0xFB,0x0F,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x02,0x04,0x02,0x00,0x00,0xEE};
-
+code UINT8 FACE_BOUNDRATE[]={0xFB,0x13,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x09,0x05,0x09,0x00,0x00,0x80,0x25,0x00,0x00,0x36};
 
 UINT8 face_recev0[32];
 UINT8	face_recev0Index;
@@ -19,21 +19,21 @@ UINT8	face_TxCommandSpeed[64];	//暂存需要发送的命令，用来计算check
 UINT8 *pFace_recevData;			//接收数据的缓冲区
 UINT8 *pFace_dealData;			//处理数据的缓冲区
 
-UINT8 fatiFacePosition;			//人脸检测模式
-UINT8	fatiPositionFlag;			//是否检测到有人脸
+UINT8 fatiFacePosition;			//人脸检测模�?
+UINT8	fatiPositionFlag;			//是否检测到有人�?
 
 
 #define RECEV_INDEX 0x01
 #define RECEV_COMPLE_MASK	0x80
-UINT8	face_recev_stat;			//接收数据的状态
+UINT8	face_recev_stat;			//接收数据的状�?
 
 
 UINT8	face_TxIndex;			//发送数据的指针偏移
-UINT8 *pFace_TxData;			//发送数据的缓冲区
+UINT8 *pFace_TxData;			//发送数据的缓冲�?
 
 #define TX_WORKING	0x01
 #define TX_COMPLE		0x80
-UINT8 face_tx_stat;				//发送数据的状态
+UINT8 face_tx_stat;				//发送数据的状�?
 
 #define FATI_STYLE_OFFSET	9
 
@@ -67,7 +67,7 @@ void face_txCommandSpeed(UINT8 speed)
 	for(temp = 0 ; temp < FACE_SPEED[1]-1 ; temp++)
 		temp2 += face_TxCommandSpeed[temp];
 	
-	temp2 = ~temp2;						//checksum 必须为0
+	temp2 = ~temp2;						//checksum 必须�?
 	++temp2;
 	
 	face_TxCommandSpeed[temp] = temp2;
@@ -92,9 +92,9 @@ void face_closeAlarm(void)
 
 void face_txCommand(UINT8 face_command)
 {
-	UINT8 code *pFace_TxDataTemp[] = {FACE_OPEN,FACE_CLOSE,FACE_POSITION,FACE_SETTING};
+	UINT8 code *pFace_TxDataTemp[] = {FACE_OPEN,FACE_CLOSE,FACE_POSITION,FACE_SETTING,FACE_BOUNDRATE};
 	
-	if(face_command > 3)
+	if(face_command > 4)
 		return;
 	
 	pFace_TxData = pFace_TxDataTemp[face_command];
@@ -144,7 +144,7 @@ void face_server(void)
 //	UINT8	temp_angle;
 //	UINT8	temp_light;
 	
-	if(face_recev_stat & RECEV_COMPLE_MASK)				//处理从fati接收的数据
+	if(face_recev_stat & RECEV_COMPLE_MASK)				//处理从fati接收的数�?
 	{
 		face_recev_stat &= ~RECEV_COMPLE_MASK;
 		
@@ -235,7 +235,7 @@ void face_server(void)
 
 //						facePositionFlag = 0xff;
 
-						//   判断数据是否合适
+						//   判断数据是否合�?
 						
 					}
 				}
@@ -277,14 +277,14 @@ void face_isr_server_RI(void)
 		face_recev0Index = 0;
 	
 	if(face_recev0Index == 1)
-		temp_len = temp_data;			//fati 的数据长度
+		temp_len = temp_data;			//fati 的数据长�?
 	
 	*(pFace_recevData+face_recev0Index) = temp_data;
 	face_recev0Index++;
 	
 	if(temp_len == face_recev0Index)
 	{
-		if(face_recev_stat & RECEV_INDEX)			//接收缓冲区有两个，交替接收工作
+		if(face_recev_stat & RECEV_INDEX)			//接收缓冲区有两个，交替接收工�?
 		{
 			face_recev_stat &= ~RECEV_INDEX;		
 			pFace_recevData = face_recev0;

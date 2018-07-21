@@ -30,10 +30,12 @@
 #define FACE_COMMAND_OPEN		0
 #define FACE_COMMAND_CLOSE		1
 #define FACE_COMMAND_POSITION	2
+#define FACE_COMMAND_BOUNDRATE	4
 
 void sys_init(void);
 void Timer0_init(void);
 void Uart0_init(void);
+void Uart0_init9600(void);
 void Uart1_init(void);
 
 
