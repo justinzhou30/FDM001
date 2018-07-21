@@ -107,7 +107,7 @@ void face_txCommand(UINT8 face_command)
 
 void face_server_10ms(void)
 {
-	UINT16 temp_times;
+	static UINT16 temp_times;
 	
 	if(fatiFacePosition)
 	{

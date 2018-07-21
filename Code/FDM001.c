@@ -4,6 +4,7 @@
 
 #include "All_Function.h"
 
+extern UINT8 fatiFacePosition;
 /************************************************************************************************************
 *    Main function 
 ************************************************************************************************************/
@@ -24,7 +25,7 @@ void main (void)
 
 
 	play_voice(VOICE_INDEX_WELCOM);
-	// play_voice(VOICE_INDEX_FACIALREAD);
+	//play_voice(VOICE_INDEX_FACIALREAD);
 
 	while(1)
 	{
@@ -61,9 +62,10 @@ void main (void)
 		
 	while(1)
 	{
-		if(timeCount++ > 200)		//2秒一次
+		if((timeCount++ > 200) && (fatiFacePosition == 0))		//2秒一次 //长按按键
 		{
 			timeCount = 0;
+			
 			temp = get_gpsSpeed();
 			
 			if(temp == 0xff)		//GPS没有信号
