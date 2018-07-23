@@ -9,11 +9,13 @@ UINT32 voiceDataIndex;			//flash里面取的当前声音数据指针
 
 #define VOICE_PLAY_STATE1		1
 #define VOICE_PLAY_STATE2		2
+#define VOICE_PLAY_STATE3		3
+#define VOICE_PLAY_STATE4		4
 UINT8 voicePlayState;		
 //UINT8 voiceBuffer0[32];
 
 #define VOICE_BUFFER_INDEX_MAX		16
-UINT8 voiceIndexBuffer[8];			//语音播放缓冲
+UINT8 voiceIndexBuffer[16];			//语音播放缓冲
 UINT8 voiceIndexF;								//指向语音播放缓冲
 UINT8 voiceIndexB;							
 
@@ -83,7 +85,7 @@ UINT32 get_addrFlash(UINT8 index)		//根据索引取得当前声音在flash里�
 	UINT8 temp[4];
 	UINT32 temp32;
 	
-	if((index > 0) && (index < 11))
+	if((index > 0) && (index < 12))
 	{
 		temp32 = 0;
 		temp32 |= index;
@@ -121,12 +123,12 @@ UINT32 get_addrFlash(UINT8 index)		//根据索引取得当前声音在flash里�
 
 void play_voice(UINT8 index)
 {
-	if(((voiceIndexF+1)&0x07) == voiceIndexB)
+	if(((voiceIndexF+1)&0x0f) == voiceIndexB)
 		return;													//播放列表满
 	
 	
 	voiceIndexBuffer[voiceIndexF++] = index;
-	voiceIndexF &= 0x07;
+	voiceIndexF &= 0x0f;
 }
 
 void play_voiceBak(UINT8 index)
@@ -164,7 +166,7 @@ void play_voiceBak(UINT8 index)
 	
 	start_pwm();
 		
-		voicePlayState = VOICE_PLAY_STATE2;
+		voicePlayState = VOICE_PLAY_STATE1;
 }
 
 
@@ -181,10 +183,11 @@ void getVoiceNextData(void)
 		case VOICE_PLAY_STATE2:		
 			if(voiceDataIndex == voiceDataSize)
 			{
-				voice_setPlayState(VOICE_STATE_STOP);
-				voice_IC_close();
-				spi_ReadStop();
-				stop_pwm();
+				voicePlayState = VOICE_PLAY_STATE3;
+//				voice_setPlayState(VOICE_STATE_STOP);
+//				voice_IC_close();
+//				spi_ReadStop();
+//				stop_pwm();
 			}
 			else
 			{
@@ -196,6 +199,25 @@ void getVoiceNextData(void)
 			}
 			break;
 			
+		case VOICE_PLAY_STATE3:
+			if((PWM3L == 0x01) && (PWM3H == 0x00))
+				voicePlayState = VOICE_PLAY_STATE4;
+			else
+			{
+				if( --PWM3L == 0xff)
+					--PWM3H;
+					
+			}
+			set_LOAD;			
+			break;
+		
+		case VOICE_PLAY_STATE4:
+			voice_setPlayState(VOICE_STATE_STOP);
+			voice_IC_close();
+			spi_ReadStop();
+			stop_pwm();			
+			break;
+		
 		default:
 			break;
 	}
@@ -211,7 +233,7 @@ void voice_server(void)
 	if(voice_getPlayState() == VOICE_STATE_STOP)
 	{
 		play_voiceBak(voiceIndexBuffer[voiceIndexB++]);
-		voiceIndexB &= 0x07;
+		voiceIndexB &= 0x0f;
 	}
 }
 

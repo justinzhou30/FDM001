@@ -1,0 +1,17 @@
+stephen 15:29:15
+GPS is connected 及 GPS is disconnected這兩個話語音，我沒給你吧。
+Justin 15:33:55
+是的，没给
+stephen 15:54:10
+今天發現兩個問題。1 . 一直閉眼，機器報危險，停止開車后，又回去報警，沒有去報滴滴滴滴。
+stephen 15:55:44
+2 . 扦GPS時，沒有語音說接通了GPS，是我的語音檔沒給到你。拔GPS時，沒有說GPS斷開了。就是上面的兩個語音。
+stephen 15:56:42
+文字可能寫的不太清楚。你下班后我打電話給你描述。
+stephen 15:59:37
+還有第3個問題。
+3 . 按power 鍵時，goodgbye有2次發音。
+stephen 16:12:26
+4 . GPS 5公里以下不報的功能，你再確認一下。我這邊試出來，5公里以下還是在報警。
+stephen 16:17:07
+ 5. pop聲還是要處理一下。

@@ -168,6 +168,7 @@ void face_server_10ms(void)
 
 void face_server(void)
 {
+	static UINT8 warring_state;
 	UINT8 temp_index;
 	UINT8 temp_checksum;
 	UINT8 temp;
@@ -215,6 +216,7 @@ void face_server(void)
 						case 0x01:
 							//putchar(0x01);
 							fati_warring = 1;
+							warring_state = 0;
 							if(fati_getWarringState()  == FATI_WARRING_OPEN)
 								play_voice(VOICE_INDEX_CAREFULLY);
 							break;
@@ -222,6 +224,7 @@ void face_server(void)
 						case 0x02:
 							//putchar(0x02);
 							fati_warring = 1;
+							warring_state = 0;
 							if(fati_getWarringState()  == FATI_WARRING_OPEN)
 								play_voice(VOICE_INDEX_WATCHROAD);
 							break;
@@ -230,14 +233,72 @@ void face_server(void)
 							//putchar(0x03);
 							fati_warring = 1;
 							if(fati_getWarringState()  == FATI_WARRING_OPEN)
-								play_voice(VOICE_INDEX_DANGER);
+							{
+								switch(warring_state)
+								{
+									case 0:
+									case 1:
+										play_voice(VOICE_INDEX_DANGER);
+										warring_state++;
+										break;
+									
+									case 2:
+									case 3:
+										play_voice(VOICE_INDEX_STOP);
+										warring_state++;
+										break;
+									
+									case 4:
+									case 5:
+										play_voice(VOICE_INDEX_DI);
+										play_voice(VOICE_INDEX_DI);
+										play_voice(VOICE_INDEX_DI);
+										play_voice(VOICE_INDEX_DI);
+										play_voice(VOICE_INDEX_DI);
+										play_voice(VOICE_INDEX_DI);
+										play_voice(VOICE_INDEX_DI);
+										play_voice(VOICE_INDEX_DI);
+										//warring_state = 4;
+										break;
+									
+									default:
+										break;
+								}
+								
+//								
+//								if(warring_state++ > 1)
+//								{
+//									play_voice(VOICE_INDEX_DI);
+//									play_voice(VOICE_INDEX_DI);
+//								}
+//								else
+//								{
+//									play_voice(VOICE_INDEX_DANGER);
+//								}
+							}
 							break;
 							
 						case 0x04:
 							//putchar(0x04);
 							fati_warring = 1;
 							if(fati_getWarringState()  == FATI_WARRING_OPEN)
-								play_voice(VOICE_INDEX_REST);
+							{
+								if(warring_state > 2)
+								{
+									play_voice(VOICE_INDEX_DI);
+									play_voice(VOICE_INDEX_DI);
+									play_voice(VOICE_INDEX_DI);
+									play_voice(VOICE_INDEX_DI);
+									play_voice(VOICE_INDEX_DI);
+									play_voice(VOICE_INDEX_DI);
+									play_voice(VOICE_INDEX_DI);
+									play_voice(VOICE_INDEX_DI);
+								}
+								else
+								{
+									play_voice(VOICE_INDEX_REST);
+								}
+							}
 							break;
 						
 						default:

@@ -75,7 +75,7 @@ void key_server(void)
 			{
 //				putchar(0);
 				sys_status = SYS_CLOSE + SYS_CHANGE;
-				play_voice(VOICE_INDEX_BYE);
+//				play_voice(VOICE_INDEX_BYE);
 				
 			}
 			

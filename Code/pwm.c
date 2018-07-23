@@ -153,7 +153,7 @@ void set_pwmDuty(UINT8 *pBuffer)
 
 void pwmToMiddle(void)
 {
-	if((PWM3L == 0x00) && (PWM3H == 0x02))
+	if((PWM3L == 0x80) && (PWM3H == 0x00))
 		voicePlayState = VOICE_PLAY_STATE2;
 	else
 	{

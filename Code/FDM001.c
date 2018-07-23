@@ -91,22 +91,23 @@ void main (void)
 				}
 				else
 				{
-					if(fati_getWarringState() == FATI_WARRING_OPEN)
-					{
-						if(++timeCount30s > 15)
-						{
-							timeCount30s = 16;
-							fati_setWarringState(FATI_WARRING_CLOSE);
-						}
-					}
+					fati_setWarringState(FATI_WARRING_CLOSE);
+//					if(fati_getWarringState() == FATI_WARRING_OPEN)
+//					{
+//						if(++timeCount30s > 15)
+//						{
+//							timeCount30s = 16;
+//							fati_setWarringState(FATI_WARRING_CLOSE);
+//						}
+//					}
 				}
 			}
 		}
 		
-		key_scan_10ms();
-		gps_Server_10ms();
-		face_server_10ms();
-		openCloseServer_10ms();
+//		key_scan_10ms();
+//		gps_Server_10ms();
+//		face_server_10ms();
+//		openCloseServer_10ms();
 		
 		while(!flag_10ms)
 		{
@@ -118,6 +119,10 @@ void main (void)
 			voice_server();
 			gps_server();
 		}
+		key_scan_10ms();
+		gps_Server_10ms();		
+		face_server_10ms();
+		openCloseServer_10ms();
 		flag_10ms = FLASE;
 	}
 }
