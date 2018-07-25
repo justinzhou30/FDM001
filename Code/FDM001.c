@@ -23,7 +23,8 @@ void main (void)
 	sys_init();
 
 	Timer2_Delay500us(1000);		//dealy 0.5s
-
+	
+	licence_check();
 
 	play_voice(VOICE_INDEX_WELCOM);
 	//play_voice(VOICE_INDEX_FACIALREAD);
@@ -60,7 +61,7 @@ void main (void)
 	
 	Uart0_init9600();
 	face_txCommand(FACE_COMMAND_OPEN);
-
+	timeCount30s = 0;
 		
 	while(1)
 	{
@@ -70,23 +71,23 @@ void main (void)
 			
 			temp = get_gpsSpeed();
 			
-			if((temp == 0xff) && (fati_getWarringState() == FATI_WARRING_OPEN) && (++timeCount30s > 15))
-			{
-				timeCount30s = 16;
-				fati_setWarringState(FATI_WARRING_CLOSE);
-			}
-//			if(temp == 0xff)		//GPS没有信号
+//			if((temp == 0xff) && (fati_getWarringState() == FATI_WARRING_OPEN) && (++timeCount30s > 15))
 //			{
-//				if(fati_getWarringState() == FATI_WARRING_OPEN)
-//				{
-//					if(++timeCount30s > 15)
-//					{
-//						timeCount30s = 16;
-//						fati_setWarringState(FATI_WARRING_CLOSE);
-//					}else{}
-//				}else{}
-//				//face_closeAlarm();
+//				timeCount30s = 16;
+//				fati_setWarringState(FATI_WARRING_CLOSE);
 //			}
+			if(temp == 0xff)		//GPS没有信号
+			{
+				if(fati_getWarringState() == FATI_WARRING_OPEN)
+				{
+					if(++timeCount30s > 15)
+					{
+						timeCount30s = 16;
+						fati_setWarringState(FATI_WARRING_CLOSE);
+					}else{}
+				}else{}
+				//face_closeAlarm();
+			}
 			else
 			{
 				if(temp > 4)		//speed > 5km
@@ -96,6 +97,7 @@ void main (void)
 				}
 				else
 				{
+					timeCount30s = 0;
 					fati_setWarringState(FATI_WARRING_CLOSE);
 //					if(fati_getWarringState() == FATI_WARRING_OPEN)
 //					{

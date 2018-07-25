@@ -149,7 +149,7 @@ void face_server_10ms(void)
 	}
 	else
 	{
-		if(++temp_times > 350)
+		if(++temp_times > 500)
 		{
 			temp_times = 0;
 			

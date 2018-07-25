@@ -102,4 +102,7 @@ void gps_Server_10ms(void);
 void gps_server(void);
 
 void SW_Reset0(void);
+
+void licence_check(void);
+void checksum(void);
 #endif
