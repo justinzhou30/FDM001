@@ -70,18 +70,23 @@ void main (void)
 			
 			temp = get_gpsSpeed();
 			
-			if(temp == 0xff)		//GPS没有信号
+			if((temp == 0xff) && (fati_getWarringState() == FATI_WARRING_OPEN) && (++timeCount30s > 15))
 			{
-				if(fati_getWarringState() == FATI_WARRING_OPEN)
-				{
-					if(++timeCount30s > 15)
-					{
-						timeCount30s = 16;
-						fati_setWarringState(FATI_WARRING_CLOSE);
-					}else{}
-				}else{}
-				//face_closeAlarm();
+				timeCount30s = 16;
+				fati_setWarringState(FATI_WARRING_CLOSE);
 			}
+//			if(temp == 0xff)		//GPS没有信号
+//			{
+//				if(fati_getWarringState() == FATI_WARRING_OPEN)
+//				{
+//					if(++timeCount30s > 15)
+//					{
+//						timeCount30s = 16;
+//						fati_setWarringState(FATI_WARRING_CLOSE);
+//					}else{}
+//				}else{}
+//				//face_closeAlarm();
+//			}
 			else
 			{
 				if(temp > 4)		//speed > 5km

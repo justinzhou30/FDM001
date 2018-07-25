@@ -1,7 +1,7 @@
 #include "All_Function.h"
 
 
-#define GPS_NO_SIGNAL_TIME		5//3000
+#define GPS_NO_SIGNAL_TIME		160	//3000
 code char *gpsDataGPVTG = "GPVTG";
 
 static UINT8 gps_returnData;
@@ -10,7 +10,11 @@ static UINT8 gps_returnFlag;	//是否有GPS信号，有则为非0，无则为0
 static UINT8 gps_speedData;
 //static UINT8 gps_signalFlag;	//是否有GPS信号，有则为非0，无则为0
 
+#define GPS_CONNECT	1
+#define GPS_NOT_CONNECT	2
+static UINT8 gps_connectFlag;		//检测GPS天线是否插上
 
+static UINT8 gps_flag;					// 接收GPS发来的$符号来判断GPS天线是否插上
 //extern UINT8 uart1RiFlag;
 
 
@@ -19,7 +23,7 @@ void gps_init(void)
 	gps_returnData = 0;
 	gps_returnFlag = 0;
 	gps_speedData = 0;
-	
+	gps_connectFlag = 0;
 //	uart1RiFlag = 0;
 }
 
@@ -44,6 +48,7 @@ void gps_rxDataServer(void)
 				{
 					rxDataStatus++;
 					temp0 = 0;
+					gps_flag = '$';
 				}
 				break;
 			
@@ -140,6 +145,7 @@ UINT8 get_gpsSpeed(void)
 void gps_Server_10ms(void)
 {
 	static UINT16 temp_time;
+	static UINT8 temp_time2;
 	
 	if(gps_returnFlag)			//有GPS速度数据
 	{
@@ -156,6 +162,53 @@ void gps_Server_10ms(void)
 		}
 //		else
 //			gps_speedData = 100;
+	}
+	
+	if(++temp_time2 > 160)
+	{
+		temp_time2 = 0;
+		
+		if(gps_connectFlag == GPS_CONNECT)
+		{
+			if(gps_flag == '$')
+			{
+				gps_flag = 0;
+			}
+			else
+			{
+				gps_flag = 0;
+				gps_connectFlag = GPS_NOT_CONNECT;
+				play_voice(VOICE_INDEX_GPS_NOT_CONNECT);
+			}
+		}
+		else if(gps_connectFlag == GPS_NOT_CONNECT)
+		{
+			if(gps_flag == '$')
+			{
+				gps_flag = 0;
+				gps_connectFlag = GPS_CONNECT;
+				play_voice(VOICE_INDEX_GPS_CONNECT);
+			}
+			else
+			{
+				gps_flag = 0;				
+			}
+		}
+		else
+		{
+			if(gps_flag == '$')
+			{
+				gps_flag = 0;
+				gps_connectFlag = GPS_CONNECT;
+				play_voice(VOICE_INDEX_GPS_CONNECT);
+			}
+			else
+			{
+				gps_flag = 0;	
+				gps_connectFlag = GPS_NOT_CONNECT;
+				play_voice(VOICE_INDEX_GPS_NOT_CONNECT);
+			}			
+		}
 	}
 }
 

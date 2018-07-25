@@ -19,8 +19,8 @@ void pwm_init(void)
 	PWMPH = 16000000/15625/256;					//16000000 / 1024 = 15625
 	PWMPL = (16000000/15625)%256;
 	
-	PWM3H = 0x01;
-	PWM3L = 0xff;
+	PWM3H = 0x00;
+	PWM3L = 0x01;
 	
 	clr_EPWM;
 	clr_LOAD;

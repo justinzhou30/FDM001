@@ -141,7 +141,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>Code\SPI.C</Filename>
+          <Filename>E:\work\steven\project\FDM001\Code\SPI.C</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\FDM001\SPI\177</Expression>
         </Bp>
@@ -157,7 +157,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>Code\SPI.C</Filename>
+          <Filename>E:\work\steven\project\FDM001\Code\SPI.C</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\FDM001\SPI\180</Expression>
         </Bp>
@@ -249,7 +249,7 @@
       <GroupNumber>1</GroupNumber>
       <FileNumber>1</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Code\FDM001.c</PathWithFileName>

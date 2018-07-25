@@ -85,7 +85,7 @@ UINT32 get_addrFlash(UINT8 index)		//根据索引取得当前声音在flash里�
 	UINT8 temp[4];
 	UINT32 temp32;
 	
-	if((index > 0) && (index < 12))
+	if((index > 0) && (index < VOICE_INDEX_END_END))
 	{
 		temp32 = 0;
 		temp32 |= index;

@@ -5,7 +5,7 @@ void sys_init(void)
 	Set_All_GPIO_Quasi_Mode;
 
 	P05 = 0;
-	P16 = 0;
+	//P16 = 0;
 	P14 = 0;
 	P12 = 1;
 	P11 = 0;
