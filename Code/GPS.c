@@ -48,7 +48,7 @@ void gps_rxDataServer(void)
 				{
 					rxDataStatus++;
 					temp0 = 0;
-					gps_flag = '$';
+					//gps_flag = '$';
 				}
 				break;
 			
@@ -95,6 +95,7 @@ void gps_rxDataServer(void)
 				{
 					if(temp0 != 0)			//没有测到速度
 					{
+						gps_flag = '$';		//检测到有GPS信号
 						
 						if(temp0 == 3)
 						{
