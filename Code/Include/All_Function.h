@@ -105,4 +105,6 @@ void SW_Reset0(void);
 
 void licence_check(void);
 void checksum(void);
+void read_uid(UINT8 *p);
+void run_times(void);
 #endif

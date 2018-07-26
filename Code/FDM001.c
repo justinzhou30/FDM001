@@ -12,6 +12,8 @@ UINT8 flag_10ms;
 
 UINT8 timeCount30s;
 
+UINT8 uid96[0x0b];
+
 void main (void)
 {
 	static UINT16 timeCount;
@@ -25,6 +27,8 @@ void main (void)
 	Timer2_Delay500us(1000);		//dealy 0.5s
 	
 	licence_check();
+	//read_uid(uid96);
+
 
 	play_voice(VOICE_INDEX_WELCOM);
 	//play_voice(VOICE_INDEX_FACIALREAD);
@@ -58,7 +62,7 @@ void main (void)
 			while(!flag_10ms);
 			flag_10ms = FLASE;
 		}
-	
+		run_times();
 	Uart0_init9600();
 	face_txCommand(FACE_COMMAND_OPEN);
 	timeCount30s = 0;
