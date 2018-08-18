@@ -51,6 +51,11 @@ UINT8 voiceBufferItem;			//指示用的是哪一个Buffer 0和1
 
 static void voice_setPlayState(UINT8 stateData)
 {
+	if(stateData == VOICE_STATE_PLAY)
+		P14 = 1;
+	else
+		P14 = 0;
+	
 	voiceState = stateData;
 }
 
