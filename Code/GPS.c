@@ -143,6 +143,22 @@ UINT8 get_gpsSpeed(void)
 	return gps_speedData;
 }
 
+
+void gps_LED_Flash(void)
+{
+	static UINT8 temp_time;
+	
+	if(gps_connectFlag == GPS_NOT_CONNECT)
+	{
+		if(++temp_time > 100)
+		{
+			temp_time = 0;
+			P12 = ~P12;					//没有GPS信号时，电源灯闪烁
+		}
+	}
+}
+
+
 void gps_Server_10ms(void)
 {
 	static UINT16 temp_time;
@@ -189,6 +205,7 @@ void gps_Server_10ms(void)
 				gps_flag = 0;
 				gps_connectFlag = GPS_CONNECT;
 				play_voice(VOICE_INDEX_GPS_CONNECT);
+				P12 = 1;
 			}
 			else
 			{
@@ -202,6 +219,7 @@ void gps_Server_10ms(void)
 				gps_flag = 0;
 				gps_connectFlag = GPS_CONNECT;
 				play_voice(VOICE_INDEX_GPS_CONNECT);
+				P12 = 1;
 			}
 			else
 			{
@@ -211,6 +229,8 @@ void gps_Server_10ms(void)
 			}			
 		}
 	}
+	
+	gps_LED_Flash();
 }
 
 void gps_server(void)

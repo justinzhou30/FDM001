@@ -22,7 +22,7 @@ void main (void)
 	
 	sys_init();
 
-	Timer2_Delay500us(1000);		//dealy 0.5s
+	Timer2_Delay500us(200);		//dealy 0.15s
 	
 	licence_check();
 
@@ -42,7 +42,9 @@ void main (void)
 			pwm_server();
 			spi_server();
 			voice_server();
+			key_server();
 		}
+		key_scan_10ms();
 		flag_10ms = FLASE;
 	}
 	

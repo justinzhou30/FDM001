@@ -91,7 +91,7 @@ void key_server(void)
 		{
 			fatiFacePosition = 0xff;
 			P13 = 1;
-			face_txCommand(FACE_COMMAND_POSITION);
+//			face_txCommand(FACE_COMMAND_POSITION);
 			play_voice(VOICE_INDEX_FACIALREAD);
 		}
 		
