@@ -149,6 +149,7 @@ void face_server_10ms(void)
 	}
 	else
 	{
+		/*
 		if(++temp_times > 500)
 		{
 			temp_times = 0;
@@ -160,9 +161,11 @@ void face_server_10ms(void)
 			else
 			{
 				timeCount30s = 0;
+				play_voice(VOICE_INDEX_DI);
 				fati_setWarringState(FATI_WARRING_OPEN);
 			}
 		}
+		*/
 	}
 }
 
