@@ -149,6 +149,7 @@ void main (void)
 		gps_Server_10ms();		
 		face_server_10ms();
 		openCloseServer_10ms();
+		check_systic_10ms();
 		flag_10ms = FLASE;
 	}
 }

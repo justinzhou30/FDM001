@@ -2,7 +2,7 @@
 
 #define KEY_INPUT	P17
 #define KEY_PRESSTIME	220
-#define KEY_DEBANCE		2
+#define KEY_DEBANCE		5
 
 
 #define SHORT_PRESS 1
@@ -139,6 +139,7 @@ void openCloseServer_10ms(void)
 		case 4:				//延时
 			if(temp++ > 251)
 			{
+				temp = 0;
 //				putchar(10);
 				P03 = 0;
 				P12 = 0;

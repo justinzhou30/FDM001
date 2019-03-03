@@ -4,6 +4,13 @@ void sys_init(void)
 {
 	Set_All_GPIO_Quasi_Mode;
 
+//	MODIFY_HIRC_VLAUE();
+//	CKDIV = 0x00;
+//	P11_PushPull_Mode;
+//	MODIFY_HIRC_VLAUE();
+//	CKDIV = 0x50;					//HIRC devider 160
+//	set_CLOEN;						//Check HIRC out wavefrom to confirm the HIRC modified
+	
 	P05 = 0;
 	//P16 = 0;
 	P14 = 0;

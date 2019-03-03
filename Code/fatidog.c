@@ -50,6 +50,9 @@ UINT8 face_tx_stat;				//å‘é€æ•°æ®çš„çŠ¶æ€?
 UINT8 fati_warringState;
 
 UINT8	fati_warring;			//À´Ò»´Î¾¯¸æ¾ÍÖÃÎ»£¬ÔÚÖ÷Ñ­»·ÀïÅÐ¶Ï5kmÒÔÏÂÓÐÃ»ÓÐÈË
+
+UINT8 systick_flag;			//ÏµÍ³Ê±ÖÓ
+
 void fati_setWarringState(UINT8 state)
 {
 	fati_warringState = state;
@@ -130,8 +133,17 @@ void face_server_10ms(void)
 	extern UINT8 timeCount30s;
 	if(fatiFacePosition)		//³¤°´°´¼üºó½øÈëÉ¨Á³¹¦ÄÜ
 	{
+		
+		if(temp_times == 400)
+		{
+			//face_txCommand(FACE_COMMAND_OPEN);
+			face_txCommand(FACE_COMMAND_POSITION);
+		}
+		
 		if(++temp_times > 450)
 		{
+			face_txCommand(FACE_COMMAND_OPEN);
+			
 			temp_times = 0;
 			
 			if(fatiPositionFlag)		//æ£€æµ‹åˆ°æœ‰äºº
@@ -143,7 +155,7 @@ void face_server_10ms(void)
 			else
 			{
 				play_voice(VOICE_INDEX_UNSUCCESSFUL);
-				face_txCommand(FACE_COMMAND_POSITION);
+				//face_txCommand(FACE_COMMAND_POSITION);
 			}
 		}else{}
 	}
@@ -314,6 +326,8 @@ void face_server(void)
 				break;
 			
 			case FATI_STYLE_SYS:
+				if(*(pFace_dealData+10) == 0x01)
+					systick_flag = 1;
 				break;
 			
 			case FATI_STYLE_ACK:			

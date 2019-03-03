@@ -105,4 +105,7 @@ void SW_Reset0(void);
 
 void licence_check(void);
 void checksum(void);
+
+void MODIFY_HIRC_VLAUE(void);
+void check_systic_10ms(void);
 #endif
