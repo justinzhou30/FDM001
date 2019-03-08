@@ -92,7 +92,7 @@ void main (void)
 					if(++timeCount30s > 15)
 					{
 						timeCount30s = 16;
-						fati_setWarringState(FATI_WARRING_CLOSE);
+						//fati_setWarringState(FATI_WARRING_CLOSE);
 					}else{}
 				}else
 				{
