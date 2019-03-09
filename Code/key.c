@@ -14,7 +14,7 @@ UINT8 key_pressStatus;
 #define SYS_CHANGE	0x80
 UINT8 sys_status;
 
-
+UINT8 sys_close_flag;
 extern UINT8 fatiFacePosition;
 
 void key_init(void)
@@ -131,6 +131,8 @@ void openCloseServer_10ms(void)
 			
 		case 3:					//关机
 //			putchar(8);
+		  sys_close_flag = 0xaa;
+			voice_init();
 			play_voice(VOICE_INDEX_BYE);
 			face_txCommand(FACE_COMMAND_CLOSE);
 			runState = 4;

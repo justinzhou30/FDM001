@@ -6,6 +6,8 @@ extern UINT8 systick_flag;
 UINT8 systick_callbak;
 UINT8 systick_step;
 
+extern UINT8 sys_close_flag;
+
 void check_systic_10ms(void)
 {
 	static unsigned int systick_time;
@@ -14,6 +16,11 @@ void check_systic_10ms(void)
 	if(++systick_time > 1000)
 	{
 		systick_time = 0;
+		
+//		if(sys_status & 1/*SYS_OPEN*/)
+//			systick_flag = 1;
+		if(sys_close_flag == 0xaa)			// ÅÐ¶ÏÊÇ·ñ¹Ø»ú¡£
+			systick_flag = 1;
 		
 		if(systick_flag)
 		{
@@ -25,6 +32,7 @@ void check_systic_10ms(void)
 			systick_callbak = 1;
 			systick_step = 0;
 		}
+		
 	}
 	
 	if(systick_callbak)

@@ -53,6 +53,9 @@ UINT8	fati_warring;			//来一次警告就置位，在主循环里判断5km以下有没有人
 
 UINT8 systick_flag;			//系统时钟
 
+extern UINT8 sys_status;
+#define SYS_OPEN	1
+
 void fati_setWarringState(UINT8 state)
 {
 	fati_warringState = state;
@@ -140,9 +143,12 @@ void face_server_10ms(void)
 			face_txCommand(FACE_COMMAND_POSITION);
 		}
 		
+		if(temp_times == 425)
+			face_txCommand(FACE_COMMAND_OPEN);
+		
 		if(++temp_times > 450)
 		{
-			face_txCommand(FACE_COMMAND_OPEN);
+			//face_txCommand(FACE_COMMAND_OPEN);
 			
 			temp_times = 0;
 			
@@ -326,8 +332,10 @@ void face_server(void)
 				break;
 			
 			case FATI_STYLE_SYS:
+				
 				if(*(pFace_dealData+10) == 0x01)
 					systick_flag = 1;
+				
 				break;
 			
 			case FATI_STYLE_ACK:			
