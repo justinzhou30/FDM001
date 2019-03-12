@@ -13,7 +13,7 @@ void check_systic_10ms(void)
 	static unsigned int systick_time;
 	static unsigned int systick_time0;
 	
-	if(++systick_time > 1000)
+	if(++systick_time > 2500)
 	{
 		systick_time = 0;
 		
@@ -42,6 +42,8 @@ void check_systic_10ms(void)
 			case 0:
 				P03 = 0;
 				systick_time0 = 0;
+				Uart0_init();
+				//face_txCommand(FACE_COMMAND_BOUNDRATE);
 				systick_step++;
 				// 关电
 				break;
@@ -60,15 +62,15 @@ void check_systic_10ms(void)
 				break;
 			
 			case 3:
-				if(++systick_time0 > 600)
+				if(++systick_time0 > 500)
 					systick_step++;
 				// 延时
 				break;
 				
 			case 4:
-				Uart0_init();
+				//Uart0_init();
 				face_txCommand(FACE_COMMAND_BOUNDRATE);
-				Uart0_init9600();
+				//Uart0_init9600();
 				//face_txCommand(FACE_COMMAND_OPEN);
 			
 			  systick_time0 = 0;
@@ -77,8 +79,11 @@ void check_systic_10ms(void)
 				break;
 			
 			case 5:
-				if(++systick_time0 > 50)
+				if(++systick_time0 > 1400)
+				{
+					Uart0_init9600();
 					systick_step++;
+				}
 				//延时
 				break;
 			

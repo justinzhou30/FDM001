@@ -52,7 +52,7 @@ void main (void)
 	face_txCommand(FACE_COMMAND_BOUNDRATE);	//修改视频模块波特率
 	while(1)
 		{
-			if(++timeCount > 100) 		//delay  等face模块上电初始化完成
+			if(++timeCount > 2000) 		//delay  等face模块上电初始化完成
 			{
 				timeCount = 0;
 				break;

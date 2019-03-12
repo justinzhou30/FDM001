@@ -3,6 +3,8 @@
 
 void Uart0_init(void)
 {
+	clr_ES;
+	
 	InitialUART0_Timer1(115200);
 	
 	set_ES;
@@ -10,6 +12,8 @@ void Uart0_init(void)
 
 void Uart0_init9600(void)
 {
+	clr_ES;
+	
 	InitialUART0_Timer1(9600);
 	
 	set_ES;
