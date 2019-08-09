@@ -87,7 +87,7 @@ void key_server(void)
 			}
 		}
 		
-		if(key_pressStatus == LONG_PRESS)
+		if((key_pressStatus == LONG_PRESS) && (sys_status == SYS_OPEN))
 		{
 			fatiFacePosition = 0xff;
 			P13 = 1;
