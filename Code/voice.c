@@ -25,6 +25,7 @@ UINT8 voiceState;
 
 UINT8 voiceBufferItem;			//指示用的是哪一个Buffer 0和1
 
+UINT8 voice_di_delay;			//处理 “ 滴~~~ ” 延时
 
 // #define VOICE_INDEX_WELCOM	1
 // #define VOICE_INDEX_FACIALREAD	2
@@ -232,13 +233,51 @@ void getVoiceNextData(void)
 
 void voice_server(void)
 {
+	static UINT8 di_status;
+
 	if(voiceIndexF == voiceIndexB)
 		return;									//播放列表空
 	
 	if(voice_getPlayState() == VOICE_STATE_STOP)
 	{
-		play_voiceBak(voiceIndexBuffer[voiceIndexB++]);
-		voiceIndexB &= 0x0f;
+		switch(di_status)
+		{
+			case 0:
+				if(VOICE_INDEX_DI == voiceIndexBuffer[voiceIndexB])
+				{
+					voice_di_delay = 20;
+					di_status++;
+				}
+				else
+				{
+					play_voiceBak(voiceIndexBuffer[voiceIndexB++]);
+					voiceIndexB &= 0x0f;
+				}
+			break;
+
+			case 1:
+				if(voice_di_delay == 0)
+					di_status++;
+			break;
+
+			case 2:
+				play_voiceBak(voiceIndexBuffer[voiceIndexB++]);
+				voiceIndexB &= 0x0f;
+
+				di_status = 0;
+			break;
+
+			default:
+			break;
+		}
+//		play_voiceBak(voiceIndexBuffer[voiceIndexB++]);
+//		voiceIndexB &= 0x0f;
 	}
 }
 
+
+void voice_server_10ms(void)
+{
+	if(voice_di_delay)
+		--voice_di_delay;
+}

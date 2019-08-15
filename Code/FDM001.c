@@ -150,6 +150,7 @@ void main (void)
 		face_server_10ms();
 		openCloseServer_10ms();
 		check_systic_10ms();
+		voice_server_10ms();
 		flag_10ms = FLASE;
 	}
 }

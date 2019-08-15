@@ -75,6 +75,7 @@ void voice_init(void);
 void getVoiceNextData(void);
 void play_voice(UINT8 index);
 void voice_server(void);
+void voice_server_10ms(void);
 
 
 void face_init(void);
