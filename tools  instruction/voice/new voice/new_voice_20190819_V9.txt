@@ -1,0 +1,18 @@
+目标文件:E:\work\steven\project\FDM001\tools  instruction\voice\new voice\new_voice_20190819_V9.bin   大小:0x00066330
+各部分大小如下:
+
+索引                        文件名                                            大小              偏移量            强制插入
+ 1      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\null.bin        0x00000400        0x00000000             否
+ 2      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\1.wav        0x0000B4D8        0x00000400             否
+ 3      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\2.wav        0x0000C860        0x0000B8D8             否
+ 4      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\3.wav        0x0000D224        0x00018138             否
+ 5      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\4.wav        0x00006448        0x0002535C             否
+ 6      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\5.wav        0x00005E2E        0x0002B7A4             否
+ 7      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\6- 》11.wav        0x0000920A        0x000315D2             否
+ 8      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\7.wav        0x000029B0        0x0003A7DC             否
+ 9      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\8.wav        0x0000A76C        0x0003D18C             否
+ 10      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\9.wav        0x00004AA6        0x000478F8             否
+ 11      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\10.wav        0x00002C20        0x0004C39E             否
+ 12      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\di\B8_4times.wav        0x00006630        0x0004EFBE             否
+ 13      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\12.wav        0x000063A6        0x00057712             否
+ 14      E:\work\steven\project\FDM001\tools  instruction\voice\new voice\13.wav        0x00008878        0x0005DAB8             否

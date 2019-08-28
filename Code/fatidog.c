@@ -273,12 +273,12 @@ void face_server(void)
 									case 5:
 										play_voice(VOICE_INDEX_DI);
 										play_voice(VOICE_INDEX_DI);
-										play_voice(VOICE_INDEX_DI);
-										play_voice(VOICE_INDEX_DI);
-										play_voice(VOICE_INDEX_DI);
-										play_voice(VOICE_INDEX_DI);
-										play_voice(VOICE_INDEX_DI);
-										play_voice(VOICE_INDEX_DI);
+//										play_voice(VOICE_INDEX_DI);
+//										play_voice(VOICE_INDEX_DI);
+//										play_voice(VOICE_INDEX_DI);
+//										play_voice(VOICE_INDEX_DI);
+//										play_voice(VOICE_INDEX_DI);
+//										play_voice(VOICE_INDEX_DI);
 										//warring_state = 4;
 										break;
 									
@@ -308,12 +308,12 @@ void face_server(void)
 								{
 									play_voice(VOICE_INDEX_DI);
 									play_voice(VOICE_INDEX_DI);
-									play_voice(VOICE_INDEX_DI);
-									play_voice(VOICE_INDEX_DI);
-									play_voice(VOICE_INDEX_DI);
-									play_voice(VOICE_INDEX_DI);
-									play_voice(VOICE_INDEX_DI);
-									play_voice(VOICE_INDEX_DI);
+//									play_voice(VOICE_INDEX_DI);
+//									play_voice(VOICE_INDEX_DI);
+//									play_voice(VOICE_INDEX_DI);
+//									play_voice(VOICE_INDEX_DI);
+//									play_voice(VOICE_INDEX_DI);
+//									play_voice(VOICE_INDEX_DI);
 								}
 								else
 								{
