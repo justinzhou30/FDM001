@@ -272,7 +272,7 @@ void face_server(void)
 									case 4:
 									case 5:
 										play_voice(VOICE_INDEX_DI);
-										play_voice(VOICE_INDEX_DI);
+//										play_voice(VOICE_INDEX_DI);
 //										play_voice(VOICE_INDEX_DI);
 //										play_voice(VOICE_INDEX_DI);
 //										play_voice(VOICE_INDEX_DI);
@@ -307,7 +307,7 @@ void face_server(void)
 								if(warring_state > 2)
 								{
 									play_voice(VOICE_INDEX_DI);
-									play_voice(VOICE_INDEX_DI);
+//									play_voice(VOICE_INDEX_DI);
 //									play_voice(VOICE_INDEX_DI);
 //									play_voice(VOICE_INDEX_DI);
 //									play_voice(VOICE_INDEX_DI);
