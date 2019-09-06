@@ -25,6 +25,7 @@ UINT8 voiceState;
 
 UINT8 voiceBufferItem;			//指示用的是哪一个Buffer 0和1
 
+UINT8 voice_diPlay_state;		//运用到嘀嘀嘀滴声音的四个阶段处理
 
 // #define VOICE_INDEX_WELCOM	1
 // #define VOICE_INDEX_FACIALREAD	2
@@ -72,17 +73,19 @@ void voice_init(void)
 	voiceIndexB = 0;
 	voiceIndexF = 0;
 	voice_setPlayState(VOICE_STATE_STOP);
+
+	voice_diPlay_state = 7;
 }
 
 
 void voice_IC_close(void)
 {
-	// P03 = 0;
+	P03 = 0;
 }
 
 void voice_IC_open(void)
 {
-	// P03 = 1;
+	P03 = 1;
 }
 
 UINT32 get_addrFlash(UINT8 index)		//根据索引取得当前声音在flash里面的地址
@@ -171,7 +174,10 @@ void play_voiceBak(UINT8 index)
 	
 	start_pwm();
 		
-		voicePlayState = VOICE_PLAY_STATE1;
+	voicePlayState = VOICE_PLAY_STATE1;
+
+	if(index == VOICE_INDEX_DI)
+		voice_diPlay_state = 1;
 }
 
 
@@ -182,6 +188,7 @@ void getVoiceNextData(void)
 	switch(voicePlayState)
 	{
 		case VOICE_PLAY_STATE1:
+			voice_IC_open();
 			pwmToMiddle();					//去爆破音
 			break;
 		
@@ -196,7 +203,7 @@ void getVoiceNextData(void)
 			}
 			else
 			{
-				voice_IC_open();
+//				voice_IC_open();
 				pwmDutyData[0] = spi_ReadNextByte();
 //				pwmDutyData[1] = spi_ReadNextByte();
 				voiceDataIndex++;
@@ -218,9 +225,10 @@ void getVoiceNextData(void)
 		
 		case VOICE_PLAY_STATE4:
 			voice_setPlayState(VOICE_STATE_STOP);
-			voice_IC_close();
 			spi_ReadStop();
-			stop_pwm();			
+			stop_pwm();		
+			voice_IC_close();
+			++voicePlayState;	
 			break;
 		
 		default:
@@ -240,5 +248,47 @@ void voice_server(void)
 		play_voiceBak(voiceIndexBuffer[voiceIndexB++]);
 		voiceIndexB &= 0x0f;
 	}
+}
+
+void voice_di_di_di_di_10ms(void)
+{
+	static UINT8 di_inter_count;
+
+	switch(voice_diPlay_state)
+	{
+		case 1:
+		case 3:
+		case 5:
+			if(--di_inter_count == 0)
+			{
+				di_inter_count = 14;	//140ms
+				voice_IC_close();
+				++voice_diPlay_state;
+			}
+		break;
+
+
+		case 2:
+		case 4:
+		case 6:
+			if(--di_inter_count == 0)
+			{
+				di_inter_count = 20;	//200ms
+				voice_IC_open();
+				++voice_diPlay_state;
+			}
+		break;
+
+
+		case 7:
+			di_inter_count = 20;		//200ms,为下一次播放做准备
+			++voice_diPlay_state;
+		break;
+
+
+		default:
+		break; 
+	}
+
 }
 
