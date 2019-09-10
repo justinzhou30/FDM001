@@ -74,7 +74,7 @@ void voice_init(void)
 	voiceIndexF = 0;
 	voice_setPlayState(VOICE_STATE_STOP);
 
-	voice_diPlay_state = 7;
+	voice_diPlay_state = 9;
 }
 
 
@@ -184,6 +184,7 @@ void play_voiceBak(UINT8 index)
 void getVoiceNextData(void)
 {
 	UINT8 pwmDutyData[2];
+//	UINT8 temp_counter;
 	
 	switch(voicePlayState)
 	{
@@ -218,17 +219,22 @@ void getVoiceNextData(void)
 			{
 				if( --PWM3L == 0xff)
 					--PWM3H;
-					
 			}
-			set_LOAD;			
+			set_LOAD;
 			break;
 		
 		case VOICE_PLAY_STATE4:
+//			voice_IC_close();
 			voice_setPlayState(VOICE_STATE_STOP);
 			spi_ReadStop();
-			stop_pwm();		
-			voice_IC_close();
-			++voicePlayState;	
+			stop_pwm();
+			
+//			for(temp_counter = 10 ; temp_counter ; --temp_counter)
+//				_nop_();
+
+//			voice_IC_close();
+//			voicePlayState = 10;
+			voicePlayState++;
 			break;
 		
 		default:
@@ -259,9 +265,10 @@ void voice_di_di_di_di_10ms(void)
 		case 1:
 		case 3:
 		case 5:
+		case 7:
 			if(--di_inter_count == 0)
 			{
-				di_inter_count = 14;	//140ms
+				di_inter_count = 7;	//140ms
 				voice_IC_close();
 				++voice_diPlay_state;
 			}
@@ -271,17 +278,18 @@ void voice_di_di_di_di_10ms(void)
 		case 2:
 		case 4:
 		case 6:
+		case 8:
 			if(--di_inter_count == 0)
 			{
-				di_inter_count = 20;	//200ms
+				di_inter_count = 17;	//200ms
 				voice_IC_open();
 				++voice_diPlay_state;
 			}
 		break;
 
 
-		case 7:
-			di_inter_count = 20;		//200ms,为下一次播放做准备
+		case 9:
+			di_inter_count = 17;		//200ms,为下一次播放做准备
 			++voice_diPlay_state;
 		break;
 

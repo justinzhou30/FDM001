@@ -239,7 +239,10 @@ void face_server(void)
 							fati_warring = 1;
 							warring_state = 0;
 							if(fati_getWarringState()  == FATI_WARRING_OPEN)
+							{
+								play_voice(VOICE_INDEX_DI);
 								play_voice(VOICE_INDEX_CAREFULLY);
+							}
 							break;
 							
 						case 0x02:
