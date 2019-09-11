@@ -80,12 +80,12 @@ void voice_init(void)
 
 void voice_IC_close(void)
 {
-	P03 = 0;
+	P11 = 0;
 }
 
 void voice_IC_open(void)
 {
-	P03 = 1;
+	P11 = 1;
 }
 
 UINT32 get_addrFlash(UINT8 index)		//根据索引取得当前声音在flash里面的地址
@@ -232,7 +232,7 @@ void getVoiceNextData(void)
 //			for(temp_counter = 10 ; temp_counter ; --temp_counter)
 //				_nop_();
 
-//			voice_IC_close();
+			voice_IC_close();
 //			voicePlayState = 10;
 			voicePlayState++;
 			break;
