@@ -147,6 +147,7 @@ void openCloseServer_10ms(void)
 				P12 = 0;
 				P13 = 0;
 				P14 = 0;
+				P11 = 0;
 				runState = 0;
 			}
 			break;

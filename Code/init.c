@@ -42,6 +42,7 @@ void sys_init(void)
 	P1M2 |= 0x08;
 
 	P03 = 1;
+	P11 = 1;
 	
 	set_EA;
 }

@@ -232,7 +232,7 @@ void getVoiceNextData(void)
 //			for(temp_counter = 10 ; temp_counter ; --temp_counter)
 //				_nop_();
 
-			voice_IC_close();
+//			voice_IC_close();
 //			voicePlayState = 10;
 			voicePlayState++;
 			break;
